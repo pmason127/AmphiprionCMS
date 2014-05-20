@@ -1,0 +1,213 @@
+﻿@model AmphiprionCMS.Areas.Administration.Models.PageCreateEditModel
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(p => p.Id)
+    @Html.HiddenFor(p => p.IsApproved)
+   
+    <div class="form-horizontal row">
+        <div class="col-md-9">
+            <div id="errors" class ="callout error" ></div>
+            @Html.ValidationSummary(true)
+            @Html.Hidden("tzOffset")
+            <div class="tab-content">
+                <div class="tab-pane active" id="page">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Title, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Title)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.HtmlDescription, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.HtmlDescription, new { })
+                            @Html.ValidationMessageFor(model => model.HtmlDescription)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#collapseOne">
+                                Publication Options
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PublishDateUtc, new { @class = "control-label" })
+                                <div>
+                                    @Html.EditorFor(model => model.PublishDateUtc)
+                                    @Html.ValidationMessageFor(model => model.PublishDateUtc)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#collapseTwo">
+                                Parent Page
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ParentId, new { @class = "control-label" })
+                                <div>
+                                    @Html.DropDownListFor(m=>m.ParentId,Model.Pages)
+                                    @Html.ValidationMessageFor(model => model.ParentId)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#collapseThree">
+                                Meta Data
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Slug, new { @class = "control-label" })
+                                <div>
+                                    @Html.EditorFor(model => model.Slug)
+                                    @Html.ValidationMessageFor(model => model.Slug)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MetaKeywords, new { @class = "control-label" })
+                                <div>
+                                    @Html.EditorFor(model => model.MetaKeywords)
+                                    @Html.ValidationMessageFor(model => model.MetaKeywords)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MetaDescription, new { @class = "control-label" })
+                                <div>
+                                    @Html.EditorFor(model => model.MetaDescription)
+                                    @Html.ValidationMessageFor(model => model.MetaDescription)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+    <div class="form-group">
+        <div class="pull-right">
+            @*<input type="button" value="Save Draft" data-publish="0" class="btn btn-default submit" />*@
+            <input type="submit" value="Publish" data-publish="1" class="btn btn-primary" />
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    var baseUrl = '@Url.Content("~/")';
+    $(document).ready(function () {
+        hideErrors();
+        var d = new Date();
+        var n = d.getTimezoneOffset();
+        $("#tzOffset").val(n);
+
+        $("input.submit").click(function(e) {
+            e.preventDefault();
+
+            var pub = $(this).data("publish");
+            if (pub === 1) {
+                $("#IsApproved").val("True");
+            }    
+            else {
+                $("#IsApproved").val("False");
+            }
+
+            $("form").submit();
+
+        });
+
+        $("form").submit(function (e) {
+            e.preventDefault();
+            hideErrors();
+            $.validator.unobtrusive.parse($(this));
+
+              if (!$(this).valid()) return;
+            var formData = $(this).serialize();
+            $.ajax(
+                {
+                    cache: false,
+                    async: true,
+                    type: "POST",
+                    url: $(this).attr('action'),
+                    data: formData,
+                    success: function (data) {
+                        var url = baseUrl + data.Url;
+                        if (data.IsHomePage)
+                            window.location = baseUrl;
+                        else
+                            window.location = url;
+                    },
+                    error:function(xhr) {
+                        var json = JSON.parse(xhr.responseText);
+                        showErrors( json);
+                    }
+                    //,complete: function () {
+                    //    $('#loading').hide();
+                    //    $('#btnSubmit').removeAttr('disabled');
+                    //}
+                }
+            );
+
+        });
+    });
+    function hideErrors() {
+        $("#errors").hide().html('');
+    }
+    function showErrors( errors) {
+        if (!errors || errors.length <= 0)
+            return;
+        var target = $("#errors");
+        target.html('');
+        var ul = $("<ul></ul>");
+        target.append(ul);
+        $.each(errors, function (index, value) {
+            var li = $("<li></li>");
+                ul.append(li);
+            if (value.key === '') {
+                li.append("<span>" + 'Errors:' + '</span>');
+            } else {
+                li.append("<span>" + value.key + '</span>');
+            }
+            var inUl = $("<ul></ul>");
+            li.append(inUl);
+            $.each(value.errors, function(i, val) {
+                var inLi = $("<li></li>");
+                    inUl.append(inLi);
+                inLi.text(val);
+            });
+        });
+        target.show();
+    }
+</script>
+

@@ -1,0 +1,20 @@
+﻿@model AmphiprionCMS.Models.Error
+
+@{
+    ViewBag.Title = "Error";
+}
+
+<h2>Oh, this is embarassing...</h2>
+@if (!string.IsNullOrEmpty(Model.Message))
+{
+    <p>@Model.Message</p>
+}
+@if (!string.IsNullOrEmpty(Model.Stack))
+{
+    <p>Additional Information:</p>
+    <p>
+        <textarea readonly="true" rows="25" style="width:100%">
+            @Model.Stack
+        </textarea>
+    </p>
+}

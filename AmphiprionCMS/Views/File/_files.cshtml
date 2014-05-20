@@ -1,0 +1,67 @@
+﻿@model AmphiprionCMS.Models.FileBrowserModel
+
+@if (Model.HasData)
+{
+    <ul class="files">
+        @foreach (var dir in Model.Folders)
+        {
+            <li>
+                <a href="#" title="@dir.Name" data-path="@(Html.AttributeEncode(Model.CurrentPath + "/" + dir.Name))" class="folder-item">
+                    <i class="icon-folder"></i>
+                    <span class="file-name">@dir.Name</span>
+                </a>
+               
+            </li>
+        }
+        @foreach (var file in Model.Files)
+        {
+            var path = Url.Action("view", new {p = Url.Encode(Model.CurrentPath + "/" + file.Name),d="100x100"});
+            <li>
+                <a href="#" title="@file.Name" data-path="@path" class="file-item">
+                    @if (file.IsImage)
+                    {
+                        <img src="@path" alt="@file.Name" />
+                    }
+                    else
+                    {
+                        <i class="icon-newspaper"></i>
+                    }
+                   <span class="file-name">@file.Name</span>
+                </a>
+                
+            </li>
+        }
+    </ul>
+}
+@if (!Model.HasData)
+{
+    <div>No files or folders available</div>
+}
+<div style="clear:both;"></div>
+<script type="text/javascript">
+        $(function() {
+            $("a.folder-item").click(function (e) {
+                e.preventDefault();
+                var path = $(this).data("path");
+                var filter = '@Model.Filter.ToLower()';
+                $.ajax({
+                    url: '@Url.Content( "~/file/browser")',
+                    data: { p: path,t:filter },
+                    dataType: 'html',
+                    success:function(html) {
+                        $('#file-browser').html(html);
+                    }
+                });
+            });
+            $("a.file-item").click(function (e) {
+                e.preventDefault();
+                var path = $(this).data("path");
+                var cb = getUrlParam('CKEditorFuncNum');
+                window.opener.CKEDITOR.tools.callFunction(cb, path,function() {
+                    var basePath = '@Url.Content("~/file/view")';
+                    path = basePath + '?p=' + path;
+                });
+                window.close();
+            });
+        });
+</script>

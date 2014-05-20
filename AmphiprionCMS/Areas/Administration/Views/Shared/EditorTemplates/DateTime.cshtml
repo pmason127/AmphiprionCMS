@@ -1,0 +1,39 @@
+﻿@model DateTime?
+<div class="date-group">
+    @Html.DropDownList("Month", new List<SelectListItem>()
+           {
+               new SelectListItem(){Text="01-Jan",Value = "1",Selected = Model.HasValue ? Model.Value.Month == 1:false},
+               new SelectListItem(){Text="02-Feb",Value = "2",Selected = Model.HasValue ? Model.Value.Month == 2:false},
+               new SelectListItem(){Text="03-Mar",Value = "3",Selected = Model.HasValue ? Model.Value.Month == 3:false},
+               new SelectListItem(){Text="04-Apr",Value = "4",Selected = Model.HasValue ? Model.Value.Month == 4:false},
+               new SelectListItem(){Text="05-May",Value = "5",Selected = Model.HasValue ? Model.Value.Month == 5:false},
+               new SelectListItem(){Text="06-Jun",Value = "6",Selected = Model.HasValue ? Model.Value.Month == 6:false},
+               new SelectListItem(){Text="07-Jul",Value = "7",Selected = Model.HasValue ? Model.Value.Month == 7:false},
+               new SelectListItem(){Text="08-Aug",Value = "8",Selected = Model.HasValue ? Model.Value.Month == 8:false},
+               new SelectListItem(){Text="09-Sep",Value = "9",Selected = Model.HasValue ? Model.Value.Month == 9:false},
+               new SelectListItem(){Text="10-Oct",Value = "10",Selected = Model.HasValue ? Model.Value.Month == 10:false},
+               new SelectListItem(){Text="11-Nov",Value = "11",Selected = Model.HasValue ? Model.Value.Month == 11:false},
+               new SelectListItem(){Text="12-Jan",Value = "12",Selected = Model.HasValue ? Model.Value.Month == 12:false},
+           }, new { @class = "form-control date-month" })
+    @Html.TextBox("Day", Model.HasValue ? Model.Value.Day.ToString() : string.Empty, new { @class = "form-control date-day" }),&nbsp;
+    @Html.TextBox("Year", Model.HasValue ? Model.Value.Year.ToString() : string.Empty, new { @class = "form-control date-year" })
+</div>
+<div class="time-group">
+    @@ @Html.TextBox("Hour", Model.HasValue ? Model.Value.Hour.ToString() : string.Empty, new { @class = "form-control date-hour" }) :
+    @Html.TextBox("Minute", Model.HasValue ? Model.Value.Minute.ToString() : string.Empty, new { @class = "form-control date-minute" })
+</div>
+
+
+
+@*<div class="input-group date">
+        @Html.TextBox(string.Empty, Model.HasValue ? Model.Value.ToString():string.Empty, new { @class = "form-control" })
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+    </div>*@
+@*<script type="text/javascript">
+        $(function () {
+            $('input#@ViewData.ModelMetadata.PropertyName').datetimepicker();
+        });
+    </script>*@
+

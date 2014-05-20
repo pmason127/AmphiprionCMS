@@ -1,0 +1,99 @@
+﻿@using System.Data.Entity.ModelConfiguration.Conventions
+@using System.Drawing
+@using AmphiprionCMS.Areas.Administration.Models
+@model AmphiprionCMS.Areas.Administration.Models.PageHierarchyModel[]
+@{
+    ViewBag.PageTitle = "Pages";
+}
+
+
+
+    <div class="tree">
+        <p>
+            <a href="@Url.Action("Add")" class="add-page"><i class="icon-plus"></i>Add a New Page</a>
+        </p>
+        <ul>
+            @ShowTree(Model[0])
+        </ul>
+    </div>
+
+
+@helper ShowTree(PageHierarchyModel root)
+{
+ bool hasChildren = root.Children.Any();
+<li>
+       @if (hasChildren)
+       {
+           <i class="icon-minus expand"  title="Expand this branch"></i>
+       }<span data-id="@root.Id" data-title="@root.Title"><i class="@(hasChildren?"icon-copy3": "icon-file4")"></i>@root.Title (@root.Slug)</span><a href="@Url.Action("Edit","Page",new {id=root.Id})" class="edit-page" style="display:none;"><i class="icon-pencil"></i>Edit</a>
+        @if (hasChildren)
+        {
+            <ul>
+                @foreach (var page in root.Children)
+                {
+                    @ShowTree(page)
+                }
+            </ul>
+        }
+    </li>
+}
+
+<script type="text/javascript">
+    jQuery.amphiprion.tree.register({
+        wrapper: $("#page-list"),
+        resetLinkId: "resetTree",
+        editor: $("#editor"),
+        baseAddUrl: '@Url.Action("Add","Page")',
+        baseEditUrl:'@Url.Action("Edit","Page")'
+    });
+    
+    $(function () {
+        $('.tree li:has(ul)').addClass('parent_li').find('>span').attr('title', 'Collapse this branch');
+        $('.tree li.parent_li > i.expand').on('click', function (e) {
+            var children = $(this).parent('li.parent_li').find('>ul>li');
+            if (children.is(":visible")) {
+                children.hide('fast');
+                $(this).attr('title', 'Expand this branch').addClass('icon-plus').removeClass('icon-minus');
+            } else {
+                children.show('fast');
+                $(this).attr('title', 'Collapse this branch').addClass('icon-minus').removeClass('icon-plus');
+            }
+            e.stopPropagation();
+        });
+        $('.tree li > span').on('click', function (e) {
+            var wasSelected = $(this).hasClass("selected");
+            $('.tree li > span').removeClass("selected");
+            $(".tree li a.edit-page").hide();
+            setAddLink(null, null);
+            if (!wasSelected) {
+                $(this).addClass("selected");
+                $(this).next('a.edit-page').show();
+                setAddLink($(this).data('title'), $(this).data('id'));
+            }
+            e.stopPropagation();
+        });
+    });
+    
+    function setAddLink(title, id) {
+        var base = '@Url.Action("Add")';
+        var url = base;
+        var baseText = 'Add a New Page';
+        var text = baseText;
+        if (id) {
+            url = base + '?parentId=' + id;
+            text = text + ' Under \'' + title + '\'';
+        }
+        $('a.add-page').attr('href', url).text(text);
+    }
+</script>
+
+@section css{
+    @Styles.Render("~/Content/datetimepickercss")
+}
+@section scripts {
+
+    @Scripts.Render("~/bundles/bootstrapdate")
+    @Scripts.Render("~/bundles/editor")
+    @Scripts.Render("~/bundles/adapter")
+    @Scripts.Render("~/bundles/jqueryval")
+}

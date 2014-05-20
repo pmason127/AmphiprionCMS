@@ -1,0 +1,28 @@
+﻿<h2>Page Management</h2>
+<div class="page-management-wrapper row">
+    <div class="col-md-3" id="sidebar">
+        <div id="current-path"></div>
+        <div id="page-list"></div>
+    </div>
+    <div class="col-md-9" id="content">Content</div>
+</div>
+
+<script type="text/javascript">
+    $.amphiprion.pagemanager.init({
+        pageListArea: $("#page-list"),
+        currentPathArea: $("#current-path"),
+        mainContentArea: $("#content")
+    });
+</script>
+
+@section scripts {
+    <script type="text/template" id="page-item-view">
+    <a href="#<%=Id%>"><%=Title%></a>
+</script>
+<script type="text/template" id="page-path-view">
+    <span class="page-path"><%=Path%></span>
+</script>
+    @Scripts.Render("~/bundles/backbone")
+    @Scripts.Render("~/bundles/pageapp")
+
+}

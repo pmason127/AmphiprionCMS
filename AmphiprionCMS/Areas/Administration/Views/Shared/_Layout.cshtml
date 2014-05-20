@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.PageTitle </title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/admin/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/application")
+    @Scripts.Render("~/bundles/administration")
+    <script type="text/javascript">
+        $(document).on("navigation.changed", function (data) {
+            alert(data.menuItem);
+        });
+    </script>
+    @RenderSection("scripts", required: false)
+    @RenderSection("css", required: false)
+    
+</head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Project name</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">Dashboard</a></li>
+                        <li><a href="#">Settings</a></li>
+                        <li><a href="#">Profile</a></li>
+                        <li><a href="#">Help</a></li>
+                    </ul>
+                    <form class="navbar-form navbar-right">
+                        <input type="text" class="form-control" placeholder="Search...">
+                    </form>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+
+            <div class="row row-offcanvas row-offcanvas-left">
+
+                <div class="col-sm-3 col-md-2 sidebar-offcanvas" id="sidebar" role="navigation">
+
+                    <ul class="nav nav-sidebar">
+                        <li class="active"><a href="#">Dashboard</a></li>
+                        <li>@Html.ActionLink("Pages","List","Page",new{@name="pages",@id = "pages"})</li>
+                        <li><a href="#">Users</a></li>
+                        <li><a href="#">Settings</a></li>
+                    </ul>
+                    
+
+                </div><!--/span-->
+
+                <div class="col-sm-9 col-md-10 main">
+
+                    <!--toggle sidebar button-->
+                    <p class="visible-xs">
+                        <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                    </p>
+
+                    <div class="row">
+                       @RenderBody()
+                    </div>
+
+                    <hr>
+
+
+                </div><!--/row-->
+            </div>
+        </div><!--/.container-->
+
+        <footer>
+            <p class="pull-right">©2014 Company</p>
+        </footer>
+
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('[data-toggle=offcanvas]').click(function () {
+                    $('.row-offcanvas').toggleClass('active');
+                });
+               
+              
+            });
+           
+            jQuery.amphiprion.globals.setTZCookie({ path: '@Url.Content("~/").TrimEnd(new char[]{'/'})', tzOffsetSeconds: (new Date()).getTimezoneOffset() });
+        </script>
+</body>
+</html>

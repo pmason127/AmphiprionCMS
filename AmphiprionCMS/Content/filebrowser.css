@@ -1,0 +1,9 @@
+﻿body{ background: #dcdcdc;padding: 30px;}
+ul.files{ list-style: none;margin: 0;padding: 0;}
+ul.files li{float: left;text-align: center;width: 150px;margin:10px;overflow: hidden;position: relative;height: 100px;}
+ul.files li i{ font-size: 100px;}
+/*ul.files li img,ul.files li i{ display:block;margin: auto;}*/
+ul.files li a{display:block;text-decoration: none;color: #000;text-align: center;}
+ul.files li a:hover{background:#dcdcdc}
+#file-browser{background:#ffffff}
+ul.files li span.file-name{ position: absolute;top: 50%;width: 100%;display: block;color: #fff;background: #333;opacity: .70;}

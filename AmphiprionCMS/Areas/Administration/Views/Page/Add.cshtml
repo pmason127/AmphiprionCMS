@@ -1,0 +1,22 @@
+﻿@model AmphiprionCMS.Areas.Administration.Models.PageCreateEditModel
+
+@{
+    ViewBag.PageTitle = "Add a Page";
+}
+<h2>Add a Page</h2>
+@Html.EditorForModel("_addEdit")
+<script type="text/javascript">
+    $.validator.setDefaults({ ignore: '' });
+    $.event.trigger("navigation.changed",  {menuItem:"pages"});
+</script>
+
+@section css{
+    @Styles.Render("~/Content/datetimepickercss")
+}
+@section scripts {
+   
+    @Scripts.Render("~/bundles/bootstrapdate")
+    @Scripts.Render("~/bundles/editor")
+    @Scripts.Render("~/bundles/adapter")
+    @Scripts.Render("~/bundles/jqueryval")
+}
