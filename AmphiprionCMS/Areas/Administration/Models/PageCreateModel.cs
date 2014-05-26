@@ -83,7 +83,7 @@ namespace AmphiprionCMS.Areas.Administration.Models
 
     public class PageModelValidator : AbstractValidator<PageCreateEditModel>
     {
-        private IPageService pages = DependencyResolver.Current.GetService<IPageService>();
+
         public PageModelValidator()
         {
             RuleFor(p => p.Title).NotEmpty();
@@ -131,13 +131,16 @@ namespace AmphiprionCMS.Areas.Administration.Models
             Level = 0;
         }
 
-        public PageHierarchyModel(Page page)
+        public PageHierarchyModel(Page page,HttpContextBase context)
             : this()
         {
             this.Id = page.Id.Value;
             Title = page.Title;
             Path = page.Path;
             Slug = page.Slug;
+            IsApproved = page.IsApproved;
+            IsActive = page.IsActive;
+            this.PublishDateUtc = page.PublishDateUtc;
 
         }
         public Guid Id { get; set; }
@@ -147,7 +150,8 @@ namespace AmphiprionCMS.Areas.Administration.Models
         public List<PageHierarchyModel> Children { get; set; }
         public PageHierarchyModel Parent { get; set; }
         public int Level { get; set; }
-
-       
+        public bool IsApproved { get; set; }
+        public DateTime? PublishDateUtc { get; set; }
+        public bool IsActive { get; set; }
     }
 }

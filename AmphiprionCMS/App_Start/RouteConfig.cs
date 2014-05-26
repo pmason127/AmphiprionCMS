@@ -41,9 +41,9 @@ namespace AmphiprionCMS
 
             routes.MapRoute("content_page"
                 , "{*path}"
-                , new { controller = "Page", action = "Page", lang = "en" }
+                , new { controller = "Page", action = "Page", lang = "en",path="" }
                 , new {page = new CMSIgnoreRouteContraint()}
-                , new string[] {"AmphiprionCMS.Controllers"}
+              
                 );
 
         }

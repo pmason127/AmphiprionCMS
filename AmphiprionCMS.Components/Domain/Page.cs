@@ -37,6 +37,20 @@ namespace Amphiprion.Data.Entities {
         public virtual System.Nullable<System.Guid> ParentId { get; set; }
         public virtual string Path { get; set; }
 
+        public bool IsPagePublished
+        {
+            get
+            {
+                if (!IsApproved)
+                    return false;
+                if (!PublishDateUtc.HasValue)
+                    return true;
+                if (PublishDateUtc.Value < DateTime.UtcNow)
+                    return true;
+
+                return false;
+            }
+        }
 
 
         Guid IMenuEnabledContent.Id

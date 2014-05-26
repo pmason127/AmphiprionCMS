@@ -11,7 +11,7 @@ BEGIN
           IsActive bit not null default(1),
           IsApproved bit not null default(0),
           Slug nvarchar(256) not null,
-          [Path] nvarchar(512) not null,
+          [Path] nvarchar(512) null,
           MetaKeywords nvarchar(512) null,
           MetaDescription nvarchar(512) null,
           ParentId uniqueidentifier null
@@ -46,7 +46,7 @@ BEGIN
 	1,
 	1,
 	'home',
-	'',
+	null,
 	null,
 	null,
 	null
@@ -106,18 +106,3 @@ BEGIN
 	INSERT INTO ampRole(Id,Description) VALUES('publishers','The role for editing and creating and publishing pages')
 END
 
-IF (OBJECT_ID('ampAccessDefinition') IS  NULL)
-BEGIN
-	CREATE TABLE ampAccessDefinition
-	(
-		RoleId nvarchar(64) not null,
-		PageId uniqueidentifier not null,
-		CanRead bit not null default(0),
-		CanEdit bit not null default(0),
-		CanPublish bit not null default(0),
-		CanDelete bit not null default(0),
-		CONSTRAINT pk_ampAccessDefinition PRIMARY KEY (RoleId,PageId),
-		CONSTRAINT fk_RoleId_Role FOREIGN KEY (RoleId) REFERENCES ampRole(Id) ON DELETE CASCADE,
-		CONSTRAINT fk_PageId_Page FOREIGN KEY (PageId) REFERENCES ampPage(Id) ON DELETE CASCADE,
-	)
-END

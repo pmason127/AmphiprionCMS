@@ -24,8 +24,6 @@ namespace Amphiprion.Data
         Page GetHomePage();
         void Delete(Guid id);
         IList<Page> List(Guid? parentId = null, bool includeParentInResults = false, bool incudeUnpublished = false, bool includeInactive = false);
-        IList<AccessDefinition> GetPageAccessDefinition(Guid pageId);
-        void SetAccessDefinition(Guid pageId, IList<AccessDefinition> definitions);
         Page GetBySlug(string slug);
     }
 
@@ -82,11 +80,7 @@ AS
                     try
                     {
                         con.Update<Page>(page,t);
-                        //if (page.IsHomePage)
-                        //{
-                        //    con.Execute("update ampPage set IsHomePage = 0 where IsHomePage = 1 and Id <> @id",
-                        //        new {id = page.Id}, t);
-                        //}
+                        RecalculatePaths(con,t);
                     }
                     catch (Exception)
                     {
@@ -217,45 +211,32 @@ AS
             
         }
 
-        public IList<AccessDefinition> GetPageAccessDefinition(Guid pageId)
+        private void RecalculatePaths(IDbConnection con,IDbTransaction tr)
         {
-            IList<AccessDefinition> definitions;
-            var pr = Predicates.Field<AccessDefinition>(p => p.PageId, Operator.Eq, pageId);
-            using (var con = _connectionManager.GetConnection())
-            {
-                definitions = con.GetList<AccessDefinition>(pr).ToList();
-             
-                con.Close();
-            }
-            return definitions;
+            var sql = recursiveSQL +
+                              " update pages set pages.[Path] = b.TreePath from ampPage pages inner join basePath b on b.Id = pages.Id";
+            con.Execute(sql, null, tr);
         }
 
-        public void SetAccessDefinition(Guid pageId, IList<AccessDefinition> definitions = null)
+        public void RecalculatePaths()
         {
-             var pr = Predicates.Field<AccessDefinition>(p => p.PageId, Operator.Eq, pageId);
             using (var con = _connectionManager.GetConnection())
             {
                 using (var t = con.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
+
                     try
                     {
-                        con.Delete<AccessDefinition>(pr, t);
-                        if (definitions != null)
-                        {
-                            con.Insert<AccessDefinition>(definitions, t);
-                        }
+                        RecalculatePaths(con,t);
                         t.Commit();
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         t.Rollback();
-                        throw;
                     }
-                  
                 }
-              
-                con.Close();
             }
         }
+        
     }
 }

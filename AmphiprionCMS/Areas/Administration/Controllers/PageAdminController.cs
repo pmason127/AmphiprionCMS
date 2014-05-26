@@ -9,16 +9,17 @@ using AmphiprionCMS.Code;
 using AmphiprionCMS.Components;
 using AmphiprionCMS.Components.Security;
 using AmphiprionCMS.Components.Services;
+using AmphiprionCMS.Models;
 
 
 namespace AmphiprionCMS.Areas.Administration.Controllers
 {
-    public class PageController : Controller
+    public class PageAdminController : Controller
     {
         private IPageService _pageService;
         private ISecurityService _securityService;
         private IFormatting _formatter;
-        public PageController(IPageService pageService, ISecurityService securityService, IFormatting formatter)
+        public PageAdminController(IPageService pageService, ISecurityService securityService, IFormatting formatter)
         {
             _pageService = pageService;
             _securityService = securityService;
@@ -52,11 +53,9 @@ namespace AmphiprionCMS.Areas.Administration.Controllers
             if (!_securityService.IsInAnyRole(user.Id, "editors", "administrators"))
                 throw new HttpException(403, "Access Denied");
 
-          //  var pages = _pageService.ListPages(null, false, true, false);
             var model = new PageCreateEditModel();
             model.ParentId = parentId ?? PageConstants.DefaultPageId;
-            model.PublishDateUtc = DateTime.UtcNow;
-           // model.Pages = pages.Select(p => new SelectListItem() { Text = p.Title, Value = p.Id.ToString() }).ToList();
+            model.PublishDateUtc = Client.LocalNow(this.HttpContext);
 
             return View(model);
         }
@@ -82,18 +81,14 @@ namespace AmphiprionCMS.Areas.Administration.Controllers
             {
 
                 var p = MapPage(model);
-               
-
-                var permissions = _securityService.GetAccessDefinitionForUser(p, _securityService.CurrentUser);
-                if (!permissions.CanEdit)
-                {
-                    throw new HttpException(403, "Access Denied");
-                }
+              
 
                 _pageService.UpdatePage(p);
+                var url = Url.Content("~" + p.Path);
+                var contentModel = new ContentPage(p, url);
 
                 if (Request.IsAjaxRequest())
-                    return Json(p);
+                    return Json(contentModel);
             }
 
 
@@ -110,10 +105,11 @@ namespace AmphiprionCMS.Areas.Administration.Controllers
                 var slug = _pageService.CreateAndValidateSlug(p, false);
                 if (!string.IsNullOrEmpty(slug))
                 {
-                    _pageService.CreatePage(p);
-
+                    _pageService.CreatePage(p);  
+                    var url = Url.Content("~" + p.Path);
+                    var contentModel = new ContentPage(p,url);
                     if (Request.IsAjaxRequest())
-                        return Json(p);
+                        return Json(contentModel);
                 }
                 else
                 {
@@ -191,7 +187,7 @@ namespace AmphiprionCMS.Areas.Administration.Controllers
             {
                 if (p.Path == null)
                 {
-                    root = new PageHierarchyModel(p);
+                    root = new PageHierarchyModel(p,this.HttpContext);
                     current = root;
                     continue;
                 }
@@ -215,7 +211,7 @@ namespace AmphiprionCMS.Areas.Administration.Controllers
                     var part = current.Children.FirstOrDefault(s => s.Slug == str);
                     if (part == null)
                     {
-                        part = new PageHierarchyModel(p);
+                        part = new PageHierarchyModel(p,HttpContext);
                         part.Level = parts.Length;
                         current.Children.Add(part);
                     }

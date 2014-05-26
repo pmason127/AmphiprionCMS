@@ -46,7 +46,7 @@ namespace AmphiprionCMS.Components.Services
             page.LastUpdateDateUtc = page.CreateDateUtc;
 
            _repo.Create(page);
-            _repo.SetAccessDefinition(page.Id.Value,page.AccessDefinition);
+
         }
 
 

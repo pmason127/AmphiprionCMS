@@ -39,9 +39,9 @@ namespace AmphiprionCMS
             ModelBinders.Binders[typeof(DateTime?)] =
    new DateTimeModelBinder();
 
-            //var siteInitializer = DependencyResolver.Current.GetService<ISiteInitializer>();
-            //if (siteInitializer != null)
-            //    siteInitializer.Setup();
+            var siteInitializer = DependencyResolver.Current.GetService<ISiteInitializer>();
+            if (siteInitializer != null)
+                siteInitializer.Setup();
 
             var t = DependencyResolver.Current.GetService<ISearchIndexProvider<Page>>();
 

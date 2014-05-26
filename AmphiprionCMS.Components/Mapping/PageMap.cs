@@ -16,6 +16,7 @@ namespace Amphiprion.Data.Mapping
            Table("ampPage");
            Map(p => p.Id).Key(KeyType.Assigned);
             Map(p => p.AccessDefinition).Ignore();
+            Map(p => p.IsPagePublished).Ignore();
            AutoMap();
         }
     }

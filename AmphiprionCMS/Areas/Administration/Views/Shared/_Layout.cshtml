@@ -12,9 +12,14 @@
     @Scripts.Render("~/bundles/application")
     @Scripts.Render("~/bundles/administration")
     <script type="text/javascript">
-        $(document).on("navigation.changed", function (data) {
-            alert(data.menuItem);
-        });
+       function setNavigation(item) {
+           if (item && item != '') {
+               $("ul.nav-sidebar li").removeClass('active');
+               $("ul.nav-sidebar li." + item).addClass('active');
+           }
+       }
+            
+       
     </script>
     @RenderSection("scripts", required: false)
     @RenderSection("css", required: false)
@@ -30,7 +35,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Project name</a>
+                    <a href="#" class="navbar-brand-icon"><img width="50" height="50" src="@Url.Content("~/content/images/amp150.png")"/></a><a class="navbar-brand" href="#">Project name</a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -54,7 +59,7 @@
 
                     <ul class="nav nav-sidebar">
                         <li class="active"><a href="#">Dashboard</a></li>
-                        <li>@Html.ActionLink("Pages","List","Page",new{@name="pages",@id = "pages"})</li>
+                        <li class="pages">@Html.ActionLink("Pages","List","PageAdmin",null,new{name="pages",id = "pages"})</li>
                         <li><a href="#">Users</a></li>
                         <li><a href="#">Settings</a></li>
                     </ul>

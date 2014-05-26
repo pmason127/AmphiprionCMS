@@ -1,11 +1,14 @@
 ﻿@model AmphiprionCMS.Areas.Administration.Models.PageCreateEditModel
 
 @{
-    ViewBag.PageTitle = "Edit Page";
+    ViewBag.PageTitle = "Add a Page";
 }
-<h2>Editing '@Model.Title'</h2>
+<h2>Add a Page</h2>
 @Html.EditorForModel("_addEdit")
-<script type="text/javascript"> $.validator.setDefaults({ ignore: '' }); </script>
+<script type="text/javascript">
+    $.validator.setDefaults({ ignore: '' });
+    setNavigation('pages');
+</script>
 
 @section css{
     @Styles.Render("~/Content/datetimepickercss")

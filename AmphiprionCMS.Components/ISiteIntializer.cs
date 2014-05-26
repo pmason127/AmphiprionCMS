@@ -21,7 +21,7 @@ namespace AmphiprionCMS.Components
         private RoleManager<CMSRole, string> _roles;
         private static readonly Guid AnonymousUserId = new Guid("AA852EFC-A593-423E-8F61-EFD100BB8420");
         private static readonly Guid AdminUserId = new Guid("8227E5B9-F837-4AD5-B216-1656928321F4");
-        private static readonly Guid defaultPageId = new Guid("9E868D0F-A9E7-40CF-BDDC-6D354D167DA5");
+        private static readonly Guid defaultPageId = PageConstants.DefaultPageId;
         public DefaultSiteInitializer(IPageService pageService,IUserStore<CMSUser,Guid> userStore,IRoleStore<CMSRole,string> roleStore )
         {
             _pages = pageService;

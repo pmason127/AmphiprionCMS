@@ -1,13 +1,12 @@
 ﻿@model AmphiprionCMS.Areas.Administration.Models.PageCreateEditModel
 
 @{
-    ViewBag.PageTitle = "Add a Page";
+    ViewBag.PageTitle = "Edit Page";
 }
-<h2>Add a Page</h2>
+<h2>Editing '@Model.Title'</h2>
 @Html.EditorForModel("_addEdit")
-<script type="text/javascript">
-    $.validator.setDefaults({ ignore: '' });
-    $.event.trigger("navigation.changed",  {menuItem:"pages"});
+<script type="text/javascript"> $.validator.setDefaults({ ignore: '' });
+    setNavigation('pages');
 </script>
 
 @section css{

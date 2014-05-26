@@ -40,18 +40,15 @@ namespace AmphiprionCMS.Controllers
             }
             else
             {
-                 page = _pageService.GetPage(path);
+                 page = _pageService.GetPage("/" + path);
             }
 
-            if (page == null 
-                     || !page.IsActive
-                     || !page.IsApproved
-                     || (page.PublishDateUtc.HasValue && page.PublishDateUtc.Value > DateTime.UtcNow))
+            if (page == null  || !page.IsPagePublished)
             {
                 throw new HttpException(404,"Page not found");
             }
-            
-            var cp = new ContentPage(lang, page);
+            var url =   Url.Content("~" + page.Path);;
+            var cp = new ContentPage(lang, page,url);
           //  cp.IsRenderingInPreviewMode = (!permissions.CanEdit || !permissions.CanPublish);
             return View(cp);
 

@@ -8,6 +8,16 @@ namespace AmphiprionCMS.Code
     public static  class Client
     {
         private static readonly string tzKey = "tzOffset";
+
+        public static DateTime LocalNow(HttpContextBase context)
+        {
+            return LocalizeDateTime(DateTime.UtcNow, context);
+        }
+        public static DateTime LocalizeDateTime(DateTime inDateTime,HttpContextBase context)
+        {
+            int offset = GetClientTimezoneOffsetInMinutes(context);
+            return inDateTime.AddMinutes(-1 * offset);
+        }
         public static int GetClientTimezoneOffsetInMinutes(HttpContextBase context)
         {
             int offset = 0;

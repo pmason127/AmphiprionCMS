@@ -26,6 +26,19 @@
        {
            <i class="icon-minus expand"  title="Expand this branch"></i>
        }<span data-id="@root.Id" data-title="@root.Title"><i class="@(hasChildren?"icon-copy3": "icon-file4")"></i>@root.Title (@root.Slug)</span><a href="@Url.Action("Edit","Page",new {id=root.Id})" class="edit-page" style="display:none;"><i class="icon-pencil"></i>Edit</a>
+           @*<a class="preview" href="@Url.Content(string.IsNullOrEmpty(root.Path)?"~/":"~" + root.Path)"><i class="icon-eye" title="View Page"></i></a>*@
+    @if (root.IsApproved)
+    {
+    
+        if (!root.PublishDateUtc.HasValue || root.PublishDateUtc > DateTime.UtcNow)
+        {
+                <i class="icon-clock" title="This post will be published in the future"></i>
+            }
+        else
+        {
+           <i class="icon-checkmark-circle green" title="This post is published"></i>
+        }
+    }
         @if (hasChildren)
         {
             <ul>
@@ -39,13 +52,7 @@
 }
 
 <script type="text/javascript">
-    jQuery.amphiprion.tree.register({
-        wrapper: $("#page-list"),
-        resetLinkId: "resetTree",
-        editor: $("#editor"),
-        baseAddUrl: '@Url.Action("Add","Page")',
-        baseEditUrl:'@Url.Action("Edit","Page")'
-    });
+    setNavigation('pages');
     
     $(function () {
         $('.tree li:has(ul)').addClass('parent_li').find('>span').attr('title', 'Collapse this branch');

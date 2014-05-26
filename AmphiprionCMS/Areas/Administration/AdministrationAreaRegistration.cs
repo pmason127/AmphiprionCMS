@@ -17,22 +17,24 @@ namespace AmphiprionCMS.Areas.Administration
 
             context.MapRoute(
                "Administration_PageAdd",
-               "Administration/page/add",
-               new { controller = "Page", action = "Add"},
+               "amp-admin/page/add",
+               new { controller = "PageAdmin", action = "Add"},
                new string[] { "AmphiprionCMS.Areas.Administration.Controllers" }
            );
             context.MapRoute(
               "Administration_PageEdit",
-              "Administration/page/edit",
-              new { controller = "Page", action = "Edit" },
-              new string[] { "AmphiprionCMS.Areas.Administration.Controllers" }
+              "amp-admin/page/edit/{id}",
+              new { controller = "PageAdmin", action = "Edit" }
           );
-
+            context.MapRoute(
+             "Administration_PageList",
+             "amp-admin/page/list",
+             new { controller = "PageAdmin", action = "List" }
+         );
             context.MapRoute(
                 "Administration_default",
-                "Administration/{controller}/{action}/{id}",
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-                new string[] { "AmphiprionCMS.Areas.Administration.Controllers" }
+                "amp-admin/{controller}/{action}/{id}",
+                new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

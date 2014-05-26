@@ -201,9 +201,8 @@
     <Compile Include="Areas\Administration\AdministrationAreaRegistration.cs" />
     <Compile Include="Areas\Administration\Controllers\AccountController.cs" />
     <Compile Include="Code\DateTimeModelBinder.cs" />
-    <Compile Include="Controllers\API\PageController.cs" />
     <Compile Include="Areas\Administration\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Administration\Controllers\PageController.cs" />
+    <Compile Include="Areas\Administration\Controllers\PageAdminController.cs" />
     <Compile Include="Areas\Administration\Models\LoginViewModel.cs" />
     <Compile Include="Areas\Administration\Models\PageCreateModel.cs" />
     <Compile Include="Code\Client.cs" />
@@ -217,7 +216,6 @@
     <Compile Include="Code\SiteSettings.cs" />
     <Compile Include="Code\ThemeHelper.cs" />
     <Compile Include="Code\ThemeRazorViewEngine.cs" />
-    <Compile Include="Controllers\API\PageHierarchyController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\PageController.cs" />
@@ -237,8 +235,6 @@
       <DependentUpon>amphiprion.mdf</DependentUpon>
     </Content>
     <Content Include="Content\admin.css" />
-    <Content Include="Content\bootstrap-datetimepicker.css" />
-    <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -248,6 +244,7 @@
     <Content Include="Content\iconmoon\demo.html" />
     <Content Include="Content\iconmoon\fonts\icomoon.svg" />
     <Content Include="Content\iconmoon\style.css" />
+    <Content Include="Content\images\amp150.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -255,26 +252,11 @@
     <Content Include="Areas\Administration\Views\web.config" />
     <Content Include="Areas\Administration\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Administration\Views\Shared\_Layout.cshtml" />
-    <Content Include="Scripts\app\page\app.js" />
-    <Content Include="Scripts\app\page\controller.js" />
-    <Content Include="Scripts\app\page\models.js" />
-    <Content Include="Scripts\app\page\page_controller.js" />
-    <Content Include="Scripts\app\page\pagelist_controller.js" />
-    <Content Include="Scripts\app\page\views.js" />
-    <Content Include="Scripts\app\page\__app.js" />
-    <Content Include="Scripts\backbone-validation-min.js" />
-    <Content Include="Scripts\backbone-validation.js" />
-    <Content Include="Scripts\backbone.js" />
-    <Content Include="Scripts\backbone.marionette.js" />
-    <Content Include="Scripts\backbone.marionette.min.js" />
-    <Content Include="Scripts\backbone.min.js" />
-    <Content Include="Scripts\bootstrap-datetimepicker.js" />
-    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Administration\Views\Home\Index.cshtml" />
-    <Content Include="Areas\Administration\Views\Page\app.cshtml" />
-    <Content Include="Areas\Administration\Views\Page\manager.cshtml" />
+    <Content Include="Areas\Administration\Views\PageAdmin\app.cshtml" />
+    <Content Include="Areas\Administration\Views\PageAdmin\manager.cshtml" />
     <None Include="Areas\Administration\Views\Shared\_LoginPartial.cshtml.k" />
     <Content Include="Scripts\ckeditor\CHANGES.md" />
     <Content Include="Scripts\ckeditor\LICENSE.md" />
@@ -287,11 +269,11 @@
     <Content Include="Scripts\ckeditor\samples\plugins\htmlwriter\assets\outputforflash\outputforflash.fla" />
     <Content Include="Scripts\ckeditor\samples\sample_posteddata.php" />
     <Content Include="Scripts\ckeditor\skins\moono\readme.md" />
-    <Content Include="Areas\Administration\Views\Page\Add.cshtml" />
+    <Content Include="Areas\Administration\Views\PageAdmin\Add.cshtml" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Areas\Administration\Views\Page\EditorTemplates\_addEdit.cshtml" />
+    <Content Include="Areas\Administration\Views\PageAdmin\EditorTemplates\_addEdit.cshtml" />
     <Content Include="Areas\Administration\Views\Shared\EditorTemplates\Text.cshtml" />
     <Content Include="Areas\Administration\Views\Shared\EditorTemplates\Html.cshtml" />
     <Content Include="Areas\Administration\Views\Shared\EditorTemplates\MultilineText.cshtml" />
@@ -301,15 +283,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\less\bootstrap-datetimepicker-build.less" />
-    <Content Include="Content\less\bootstrap-datetimepicker.less" />
     <Content Include="Media\Web.config" />
-    <Content Include="Areas\Administration\Views\Page\Edit.cshtml" />
-    <Content Include="Areas\Administration\Views\Page\EditorTemplates\AccessDefinitionModel.cshtml" />
+    <Content Include="Areas\Administration\Views\PageAdmin\Edit.cshtml" />
+    <Content Include="Areas\Administration\Views\PageAdmin\EditorTemplates\AccessDefinitionModel.cshtml" />
     <Content Include="Areas\Administration\Views\Account\Login.cshtml" />
-    <Content Include="Areas\Administration\Views\Page\List.cshtml" />
-    <Content Include="Areas\Administration\Views\Page\_addEdit.cshtml" />
-    <Content Include="Scripts\backbone.min.map" />
+    <Content Include="Areas\Administration\Views\PageAdmin\List.cshtml" />
+    <Content Include="Areas\Administration\Views\PageAdmin\_addEdit.cshtml" />
     <Content Include="Content\iconmoon\fonts\icomoon.eot" />
     <Content Include="Content\iconmoon\fonts\icomoon.ttf" />
     <Content Include="Content\iconmoon\fonts\icomoon.woff" />
@@ -572,7 +551,6 @@
     <Content Include="Scripts\ckeditor\skins\moono\images\refresh.png" />
     <Content Include="Scripts\ckeditor\styles.js" />
     <Content Include="Scripts\application.js" />
-    <Content Include="Scripts\editor.js" />
     <Content Include="Scripts\jquery-2.1.0.js" />
     <Content Include="Scripts\jquery-2.1.0.min.js" />
     <Content Include="Scripts\jquery-2.1.0.min.map" />
@@ -581,17 +559,10 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.7.2.js" />
-    <Content Include="Scripts\moment-with-langs.js" />
-    <Content Include="Scripts\moment-with-langs.min.js" />
-    <Content Include="Scripts\moment.js" />
-    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\underscore.js" />
-    <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -626,8 +597,6 @@
     <Content Include="Views\ContentFragments\sample.cshtml" />
     <Content Include="Views\File\Browser.cshtml" />
     <Content Include="Views\File\_files.cshtml" />
-    <Content Include="Scripts\tree.js" />
-    <Content Include="Scripts\underscore.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Themes\Default\css\" />

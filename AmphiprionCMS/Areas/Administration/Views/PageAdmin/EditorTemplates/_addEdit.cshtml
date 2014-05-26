@@ -6,7 +6,7 @@
     @Html.HiddenFor(p => p.Id)
     @Html.HiddenFor(p => p.IsApproved)
    
-    <div class="form-horizontal row">
+    <div class="form-horizontal">
         <div class="col-md-9">
             <div id="errors" class ="callout error" ></div>
             @Html.ValidationSummary(true)
@@ -116,16 +116,16 @@
 
 
     </div>
-    <div class="form-group">
+    <div class="form-group clearfix">
         <div class="pull-right">
-            @*<input type="button" value="Save Draft" data-publish="0" class="btn btn-default submit" />*@
-            <input type="submit" value="Publish" data-publish="1" class="btn btn-primary" />
+            <input type="button" value="Save Draft" data-publish="0" class="btn btn-default submit" />
+            <input type="button" value="Publish" data-publish="1" class="btn btn-primary submit" />
         </div>
     </div>
 }
 
 <script type="text/javascript">
-    var baseUrl = '@Url.Content("~/")';
+
     $(document).ready(function () {
         hideErrors();
         var d = new Date();
@@ -162,11 +162,7 @@
                     url: $(this).attr('action'),
                     data: formData,
                     success: function (data) {
-                        var url = baseUrl + data.Url;
-                        if (data.IsHomePage)
-                            window.location = baseUrl;
-                        else
-                            window.location = url;
+                        window.location = data.Url;
                     },
                     error:function(xhr) {
                         var json = JSON.parse(xhr.responseText);
