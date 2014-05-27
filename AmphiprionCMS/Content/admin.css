@@ -135,6 +135,9 @@ a.navbar-brand-icon{ float: left;padding: 0 15px;}
 .green {
     color: #009900;
 }
+.red {
+    color: #ff0000;
+}
 .tree li a.preview {
     border: none;color: #000;
 }
@@ -239,7 +242,12 @@ i.glyphicon, i[class*='icon-'] {
         border: 1px solid #94a0b4;
         color: #000;
     }
-
+ul.tree-legend {
+    list-style: none;
+}
+ul.tree-legend li span {
+    margin-left: 5px;
+}
 .panel-body {
     padding: 18px;
 }

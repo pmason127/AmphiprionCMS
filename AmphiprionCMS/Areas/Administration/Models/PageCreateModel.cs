@@ -153,5 +153,6 @@ namespace AmphiprionCMS.Areas.Administration.Models
         public bool IsApproved { get; set; }
         public DateTime? PublishDateUtc { get; set; }
         public bool IsActive { get; set; }
+        public bool IsHomepage { get { return this.Id == PageConstants.DefaultPageId; }}
     }
 }

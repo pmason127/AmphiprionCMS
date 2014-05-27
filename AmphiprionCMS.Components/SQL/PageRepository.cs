@@ -140,12 +140,13 @@ AS
                         if (id == PageConstants.DefaultPageId)
                             throw new ApplicationException("Cannot delete home page.  Add home page reference instead");
 
-                        con.Delete<Page>(pred);
+                        con.Delete<Page>(pred,t);
                         RecalculatePaths(con,t);
                     }
                     catch (Exception)
                     {
                         t.Rollback();
+                        throw;
                     }
 
                     t.Commit();
@@ -236,6 +237,7 @@ AS
                     catch (Exception ex)
                     {
                         t.Rollback();
+                        throw;
                     }
                 }
             }

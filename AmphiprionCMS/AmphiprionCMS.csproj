@@ -208,7 +208,7 @@
     <Compile Include="Code\Client.cs" />
     <Compile Include="Code\CMSIgnoreRouteContraint.cs" />
     <Compile Include="Code\Constants.cs" />
-    <Compile Include="Code\ErrorFilter.cs" />
+    <Compile Include="Code\Attributes.cs" />
     <Compile Include="Code\IOC\IoC.cs" />
     <Compile Include="Code\IOC\StructureMapDependencyResolver.cs" />
     <Compile Include="Code\IOC\StructureMapDependencyScope.cs" />

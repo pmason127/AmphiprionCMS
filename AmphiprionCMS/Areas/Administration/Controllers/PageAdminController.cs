@@ -27,9 +27,6 @@ namespace AmphiprionCMS.Areas.Administration.Controllers
         }
         public ActionResult List(Guid? parentId)
         {
-
-
-
             var pages = _pageService.ListPages(null, false, true, true);
             var hierarchy = new PageHierarchyModel[] { GetHierarchy(pages) };
 
@@ -73,6 +70,7 @@ namespace AmphiprionCMS.Areas.Administration.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [HandleAjaxModelErrors]
         public ActionResult Edit(PageCreateEditModel model)
         {
             if (!model.Id.HasValue)
@@ -80,16 +78,24 @@ namespace AmphiprionCMS.Areas.Administration.Controllers
 
             if (ModelState.IsValid)
             {
-
+                var slug = model.Slug;
                 var p = MapPage(model);
-              
+                if(p.Slug != slug)
+                     slug = _pageService.CreateAndValidateSlug(p, false);
+                if (!string.IsNullOrEmpty(slug))
+                {
+                    _pageService.UpdatePage(p);
+                    var url = Url.Content("~" + p.Path);
+                    var contentModel = new ContentPage(p, url);
 
-                _pageService.UpdatePage(p);
-                var url = Url.Content("~" + p.Path);
-                var contentModel = new ContentPage(p, url);
-
-                if (Request.IsAjaxRequest())
-                    return Json(contentModel);
+                    if (Request.IsAjaxRequest())
+                        return Json(contentModel);
+                }
+                else
+                {
+                    ModelState.AddModelError("", "The title specified would result in a duplicate page.  Choose another parent page or modify the slug property.");
+                }
+               
             }
 
 
@@ -121,7 +127,34 @@ namespace AmphiprionCMS.Areas.Administration.Controllers
 
             return View(model);
         }
+        [HttpPost]
+        [ValidateJsonAntiForgeryToken]
+        [HandleAjaxModelErrors]
+        public ActionResult Delete(Guid id)
+        {
+            if (!Request.IsAjaxRequest())
+                return null;
 
+            bool deleted = false;
+            if(id == PageConstants.DefaultPageId)
+                ModelState.AddModelError("","Cannot delete home page");
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _pageService.DeletePage(id);
+                    deleted = true;
+                }
+                catch (Exception ex)
+                {
+                   ModelState.AddModelError("",ex.Message);
+                }
+              
+            }
+
+            return Json(new{id=id,deleted=deleted});
+            
+        }
 
         private Page MapPage(PageCreateEditModel model)
         {

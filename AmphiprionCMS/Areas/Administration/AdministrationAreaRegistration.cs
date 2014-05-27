@@ -27,6 +27,11 @@ namespace AmphiprionCMS.Areas.Administration
               new { controller = "PageAdmin", action = "Edit" }
           );
             context.MapRoute(
+              "Administration_PageDelete",
+              "amp-admin/page/delete",
+              new { controller = "PageAdmin", action = "Delete" }
+          );
+            context.MapRoute(
              "Administration_PageList",
              "amp-admin/page/list",
              new { controller = "PageAdmin", action = "List" }
