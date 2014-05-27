@@ -245,6 +245,7 @@
     <Content Include="Content\iconmoon\fonts\icomoon.svg" />
     <Content Include="Content\iconmoon\style.css" />
     <Content Include="Content\images\amp150.png" />
+    <Content Include="Content\images\spinner.gif" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -255,8 +256,6 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Administration\Views\Home\Index.cshtml" />
-    <Content Include="Areas\Administration\Views\PageAdmin\app.cshtml" />
-    <Content Include="Areas\Administration\Views\PageAdmin\manager.cshtml" />
     <None Include="Areas\Administration\Views\Shared\_LoginPartial.cshtml.k" />
     <Content Include="Scripts\ckeditor\CHANGES.md" />
     <Content Include="Scripts\ckeditor\LICENSE.md" />
@@ -269,7 +268,7 @@
     <Content Include="Scripts\ckeditor\samples\plugins\htmlwriter\assets\outputforflash\outputforflash.fla" />
     <Content Include="Scripts\ckeditor\samples\sample_posteddata.php" />
     <Content Include="Scripts\ckeditor\skins\moono\readme.md" />
-    <Content Include="Areas\Administration\Views\PageAdmin\Add.cshtml" />
+    <Content Include="Areas\Administration\Views\PageAdmin\AddEdit.cshtml" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />

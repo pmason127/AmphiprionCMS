@@ -4,7 +4,7 @@
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(p => p.Id)
-    @Html.HiddenFor(p => p.IsApproved)
+
    
     <div class="form-horizontal">
         <div class="col-md-9">
@@ -48,6 +48,14 @@
                                 <div>
                                     @Html.EditorFor(model => model.PublishDateUtc)
                                     @Html.ValidationMessageFor(model => model.PublishDateUtc)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.IsApproved, new { @class = "control-label" })
+                               
+                                    @Html.EditorFor(model => model.IsApproved)
+                                <div>
+                                    @Html.ValidationMessageFor(model => model.IsApproved)
                                 </div>
                             </div>
                         </div>
@@ -118,8 +126,7 @@
     </div>
     <div class="form-group clearfix">
         <div class="pull-right">
-            <input type="button" value="Save Draft" data-publish="0" class="btn btn-default submit" />
-            <input type="button" value="Publish" data-publish="1" class="btn btn-primary submit" />
+            <input type="submit" id="publish" value="Publish" class="btn btn-primary submit" />
         </div>
     </div>
 }
@@ -128,31 +135,25 @@
 
     $(document).ready(function () {
         hideErrors();
+        toggleSubmit($("#IsApproved"));
+        
+        $("#IsApproved").change(function () {
+            toggleSubmit($(this));
+        });
+        
         var d = new Date();
         var n = d.getTimezoneOffset();
         $("#tzOffset").val(n);
 
-        $("input.submit").click(function(e) {
-            e.preventDefault();
 
-            var pub = $(this).data("publish");
-            if (pub === 1) {
-                $("#IsApproved").val("True");
-            }    
-            else {
-                $("#IsApproved").val("False");
-            }
-
-            $("form").submit();
-
-        });
 
         $("form").submit(function (e) {
             e.preventDefault();
             hideErrors();
             $.validator.unobtrusive.parse($(this));
 
-              if (!$(this).valid()) return;
+            if (!$(this).valid()) return;
+            $.amphiprion.globals.showWait();
             var formData = $(this).serialize();
             $.ajax(
                 {
@@ -162,16 +163,15 @@
                     url: $(this).attr('action'),
                     data: formData,
                     success: function (data) {
-                        window.location = data.Url;
+                      window.location = data.Url;
                     },
                     error:function(xhr) {
                         var json = JSON.parse(xhr.responseText);
                         showErrors( json);
                     }
-                    //,complete: function () {
-                    //    $('#loading').hide();
-                    //    $('#btnSubmit').removeAttr('disabled');
-                    //}
+                    ,complete: function () {
+                        $.amphiprion.globals.hideWait();
+                    }
                 }
             );
 
@@ -179,6 +179,18 @@
     });
     function hideErrors() {
         $("#errors").hide().html('');
+    }
+    function toggleSubmit(chkBox) {
+        var submit = $("input[type='submit']");
+        if (chkBox.is(":checked")) {
+            if (!submit.hasClass("btn-primary"))
+                submit.addClass("btn-primary");
+            submit.val("Publish");
+        } else {
+            submit.removeClass("btn-primary");
+            submit.val("Save Draft");
+        }
+            
     }
     function showErrors( errors) {
         if (!errors || errors.length <= 0)

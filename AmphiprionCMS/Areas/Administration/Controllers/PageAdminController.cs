@@ -55,9 +55,10 @@ namespace AmphiprionCMS.Areas.Administration.Controllers
 
             var model = new PageCreateEditModel();
             model.ParentId = parentId ?? PageConstants.DefaultPageId;
+            model.IsApproved = true;
             model.PublishDateUtc = Client.LocalNow(this.HttpContext);
 
-            return View(model);
+            return View("AddEdit",model);
         }
         public ActionResult Edit(Guid id)
         {
@@ -67,7 +68,7 @@ namespace AmphiprionCMS.Areas.Administration.Controllers
 
             var model = new PageCreateEditModel(page, this.HttpContext);
             //TODO: Security check
-            return View(model);
+            return View("AddEdit",model);
         }
 
         [HttpPost]

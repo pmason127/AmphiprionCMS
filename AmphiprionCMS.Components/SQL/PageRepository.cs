@@ -21,7 +21,6 @@ namespace Amphiprion.Data
         void Update(Page page);
         Page Get(Guid id);
         Page Get(string path);
-        Page GetHomePage();
         void Delete(Guid id);
         IList<Page> List(Guid? parentId = null, bool includeParentInResults = false, bool incudeUnpublished = false, bool includeInactive = false);
         Page GetBySlug(string slug);
@@ -103,18 +102,7 @@ AS
             }
             return node;
         }
-        public Page GetHomePage()
-        {
-            Page node = null;
-            //using (var con = _connectionManager.GetConnection())
-            //{
-            //    var pr = Predicates.Field<Page>(p => p.IsHomePage, Operator.Eq, true);
-            //    var pages = con.GetList<Page>(pr);
-            //    node = pages.FirstOrDefault();
-            //    con.Close();
-            //}
-            return node;
-        }
+        
         public Page Get(string path)
         {
             Page node = null;
@@ -143,13 +131,28 @@ AS
         {
             using (var con = _connectionManager.GetConnection())
             {
-                var pred = Predicates.Field<Page>(p => p.Id, Operator.Eq, id);
+                using (var t = con.BeginTransaction(IsolationLevel.ReadCommitted))
+                {
+                    try
+                    {
+                        var pred = Predicates.Field<Page>(p => p.Id, Operator.Eq, id);
 
-                if(id == PageConstants.DefaultPageId)
-                    throw new ApplicationException("Cannot delete home page.  Add home page reference instead");
+                        if (id == PageConstants.DefaultPageId)
+                            throw new ApplicationException("Cannot delete home page.  Add home page reference instead");
 
-                con.Delete<Page>(pred);
-                con.Close();
+                        con.Delete<Page>(pred);
+                        RecalculatePaths(con,t);
+                    }
+                    catch (Exception)
+                    {
+                        t.Rollback();
+                    }
+
+                    t.Commit();
+                    con.Close();
+                }
+               
+               
             }
         }
 

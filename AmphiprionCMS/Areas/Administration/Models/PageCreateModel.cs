@@ -59,7 +59,7 @@ namespace AmphiprionCMS.Areas.Administration.Models
 
 
         [DefaultValue(false)]
-        [DisplayName("Approved")]
+        [DisplayName("Publish")]
         public virtual bool IsApproved { get; set; }
         [DataType(DataType.Text)]
         public virtual string Slug { get; set; }
