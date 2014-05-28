@@ -1,0 +1,19 @@
+﻿@model AmphiprionCMS.Areas.AmpAdministration.Models.PageCreateEditModel
+
+@{
+    ViewBag.PageTitle = "Add a Page";
+}
+<h2>Add a Page</h2>
+@Html.EditorForModel("_addEdit")
+<script type="text/javascript">
+    $.validator.setDefaults({ ignore: '' });
+    setNavigation('pages');
+</script>
+
+
+@section scripts {
+   
+    @Scripts.Render("~/bundles/amphiprion/editor")
+    @Scripts.Render("~/bundles/amphiprion/adapter")
+    @Scripts.Render("~/bundles/jqueryval")
+}
