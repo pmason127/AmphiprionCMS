@@ -200,6 +200,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\AmpAdministration\AmpAdministrationAreaRegistration.cs" />
     <Compile Include="Areas\AmpAdministration\Controllers\AccountController.cs" />
+    <Compile Include="Areas\AmpAdministration\Controllers\AmpSettingsController.cs" />
+    <Compile Include="Areas\AmpAdministration\Models\SettingsModel.cs" />
     <Compile Include="Code\DateTimeModelBinder.cs" />
     <Compile Include="Areas\AmpAdministration\Controllers\HomeController.cs" />
     <Compile Include="Areas\AmpAdministration\Controllers\PageAdminController.cs" />
@@ -209,15 +211,15 @@
     <Compile Include="Code\CMSIgnoreRouteContraint.cs" />
     <Compile Include="Code\Constants.cs" />
     <Compile Include="Code\Attributes.cs" />
+    <Compile Include="Code\HtmlHelpers.cs" />
     <Compile Include="Code\IOC\IoC.cs" />
     <Compile Include="Code\IOC\StructureMapDependencyResolver.cs" />
     <Compile Include="Code\IOC\StructureMapDependencyScope.cs" />
     <Compile Include="Code\RouteDataExtensions.cs" />
-    <Compile Include="Code\SiteSettings.cs" />
     <Compile Include="Code\ThemeHelper.cs" />
     <Compile Include="Code\ThemeRazorViewEngine.cs" />
     <Compile Include="Controllers\AmphiprionCMS\ErrorController.cs" />
-    <Compile Include="Controllers\AmphiprionCMS\FileController.cs" />
+    <Compile Include="Areas\AmpAdministration\Controllers\FileController.cs" />
     <Compile Include="Controllers\AmphiprionCMS\AmpPageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -225,7 +227,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AmphirprionCMS\ContentPage.cs" />
     <Compile Include="Models\AmphirprionCMS\Error.cs" />
-    <Compile Include="Models\AmphirprionCMS\FileBrowserModel.cs" />
+    <Compile Include="Areas\AmpAdministration\Models\FileBrowserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -262,6 +264,8 @@
     <Content Include="AmphiprionCMS\Content\iconmoon\fonts\icomoon.eot" />
     <Content Include="AmphiprionCMS\Content\iconmoon\fonts\icomoon.ttf" />
     <Content Include="AmphiprionCMS\Content\iconmoon\fonts\icomoon.woff" />
+    <Content Include="Areas\AmpAdministration\Views\AmpSettings\settings.cshtml" />
+    <Content Include="Areas\AmpAdministration\Views\Shared\EditorTemplates\String.cshtml" />
     <None Include="Areas\AmpAdministration\Views\Shared\_LoginPartial.cshtml.k" />
     <Content Include="AmphiprionCMS\Scripts\ckeditor\CHANGES.md" />
     <Content Include="AmphiprionCMS\Scripts\ckeditor\LICENSE.md" />
@@ -598,8 +602,8 @@
     <Content Include="Views\Error\Error404.cshtml" />
     <Content Include="Views\Error\Error.cshtml" />
     <Content Include="Views\ContentFragments\sample.cshtml" />
-    <Content Include="Views\File\Browser.cshtml" />
-    <Content Include="Views\File\_files.cshtml" />
+    <Content Include="Areas\AmpAdministration\Views\File\Browser.cshtml" />
+    <Content Include="Areas\AmpAdministration\Views\File\_files.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Themes\Default\css\" />

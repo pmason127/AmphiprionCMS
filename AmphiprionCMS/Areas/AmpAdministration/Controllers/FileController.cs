@@ -11,7 +11,7 @@ using AmphiprionCMS.Components;
 using AmphiprionCMS.Models;
 using Microsoft.Ajax.Utilities;
 
-namespace AmphiprionCMS.Controllers
+namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
 {
     public class FileController : Controller
     {

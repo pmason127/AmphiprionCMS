@@ -99,12 +99,14 @@
     <Compile Include="Caching\Cache.cs" />
     <Compile Include="Domain\Menu.cs" />
     <Compile Include="Domain\Page.cs" />
+    <Compile Include="Domain\SiteSettings.cs" />
     <Compile Include="Formatting.cs" />
     <Compile Include="IConnectionManager.cs" />
     <Compile Include="IContentFragment.cs" />
     <Compile Include="ISiteIntializer.cs" />
     <Compile Include="Mapping\PageMap.cs" />
     <Compile Include="Mapping\SecurityMaps.cs" />
+    <Compile Include="Mapping\SettingsMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Search\IDocumentMapper.cs" />
     <Compile Include="Search\SearchIndexProvider.cs" />
@@ -112,10 +114,12 @@
     <Compile Include="Security\CMSUserStore.cs" />
     <Compile Include="Security\SecurityService.cs" />
     <Compile Include="Services\PageService.cs" />
+    <Compile Include="SiteSettings.cs" />
     <Compile Include="SQL\CMSUserRepository.cs" />
     <Compile Include="SQL\IInstaller.cs" />
     <Compile Include="SQL\PageRepository.cs" />
     <Compile Include="Imaging.cs" />
+    <Compile Include="SQL\SettingsRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

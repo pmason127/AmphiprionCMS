@@ -6,7 +6,7 @@
     
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @*@Styles.Render("~/Content/css")*@
-
+    @Html.RawHeader()
     @RenderSection("rawHeader", required: false)
 </head>
     <body>
@@ -29,5 +29,6 @@
             jQuery.amphiprion.globals.setTZCookie({path:'@Url.Content("~/").TrimEnd(new char[]{'/'})',tzOffsetSeconds:(new Date()).getTimezoneOffset()});
         </script>
         @RenderSection("scripts", required: false)
+        @Html.RawFooter()
     </body>
 </html>

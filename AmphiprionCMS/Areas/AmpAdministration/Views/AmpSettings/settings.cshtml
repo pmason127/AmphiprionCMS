@@ -1,0 +1,110 @@
+﻿@model AmphiprionCMS.Areas.AmpAdministration.Models.SettingsModel
+
+@{
+    ViewBag.Title = "Settings";
+}
+
+<h2>Site Settings</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="col-md-9">
+            <div class="alert alert-success" style="display:none;"></div>
+            <div id="errors" class="callout error" style="display:none;"></div>
+            @Html.ValidationSummary(true)
+            <div class="form-group">
+                @Html.LabelFor(model => model.SiteName, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.SiteName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SiteName)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Description)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.SiteUrl, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.SiteUrl, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SiteUrl)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Timezone, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Timezone, Model.Timezones, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SiteUrl)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.RawHeader, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.RawHeader, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.RawHeader)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.RawFooter, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.RawFooter, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.RawFooter)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="pull-right"><input type="submit" class="btn btn-primary" value="Save" /></div>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        setNavigation('settings');
+        $.amphiprion.globals.clearModelErrors('errors');
+
+        $("form").submit(function (e) {
+            e.preventDefault();
+            $.amphiprion.globals.clearModelErrors('errors');
+            $.validator.unobtrusive.parse($(this));
+
+            if (!$(this).valid()) return;
+            $.amphiprion.globals.showWait();
+            var formData = $(this).serialize();
+            $.ajax(
+                {
+                    cache: false,
+                    async: true,
+                    type: "POST",
+                    url: $(this).attr('action'),
+                    data: formData,
+                    success: function (data) {
+                        $(".alert-success").html('Settings Saved.').slideDown(function() {
+                            var $this = $(this);
+                            setTimeout(function() {
+                                $this.fadeOut();
+                            },5000);
+                        });
+                    },
+                    error: function (xhr) {
+                        var json = JSON.parse(xhr.responseText);
+                        $.amphiprion.globals.renderModelErrors(json, 'errors');
+                    }
+                    , complete: function () {
+                        $.amphiprion.globals.hideWait();
+                    }
+                }
+            );
+
+        });
+    });
+</script>
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

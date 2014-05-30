@@ -20,7 +20,7 @@
 </div>
 <div class="time-group">
     @@ @Html.TextBox("Hour", Model.HasValue ? Model.Value.Hour.ToString() : string.Empty, new { @class = "form-control date-hour" }) :
-    @Html.TextBox("Minute", Model.HasValue ? Model.Value.Minute.ToString() : string.Empty, new { @class = "form-control date-minute" })
+    @Html.TextBox("Minute", Model.HasValue ? Model.Value.Minute.ToString().PadLeft(2,'0') : string.Empty, new { @class = "form-control date-minute" })
 </div>
 
 

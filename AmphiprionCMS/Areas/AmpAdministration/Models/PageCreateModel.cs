@@ -92,36 +92,6 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Models
     }
 
 
-    public class AccessDefinitionModel
-    {
-        public string Role { get; set; }
-        public bool CanRead { get; set; }
-        public bool CanEdit { get; set; }
-        public bool CanDelete { get; set; }
-        public bool CanPublish { get; set; }
-
-        public bool IsUndefined
-        {
-            get
-            {
-                return !CanRead && !CanEdit && !CanDelete && !CanPublish;
-            }
-        }
-    }
-
-    public class AccessDefinitionModelComparer : IEqualityComparer<AccessDefinitionModel>
-    {
-
-        public bool Equals(AccessDefinitionModel x, AccessDefinitionModel y)
-        {
-            return x.Role.Equals(y.Role, StringComparison.InvariantCultureIgnoreCase);
-        }
-
-        public int GetHashCode(AccessDefinitionModel obj)
-        {
-            return obj.Role.GetHashCode();
-        }
-    }
 
     public class PageHierarchyModel
     {

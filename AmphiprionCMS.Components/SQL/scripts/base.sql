@@ -106,3 +106,25 @@ BEGIN
 	INSERT INTO ampRole(Id,Description) VALUES('publishers','The role for editing and creating and publishing pages')
 END
 
+IF (OBJECT_ID('ampSettings') IS  NULL)
+BEGIN
+CREATE TABLE [ampSettings](
+	[SiteId] [int] NOT NULL,
+	[SiteName] [nvarchar](128) NOT NULL,
+	[SiteUrl] [nvarchar](128) NOT NULL,
+	[MetaKeywords] [nvarchar](512) NULL,
+	[Description] [nvarchar](512) NULL,
+	[RawHeader] [nvarchar](max) NULL,
+	[RawFooter] [nvarchar](max) NULL,
+	[Timezone] [nvarchar](64) NOT NULL,
+ CONSTRAINT [PK_ampSettings] PRIMARY KEY CLUSTERED 
+(
+	[SiteId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+insert into ampSettings(SiteId,SiteName,SiteUrl,Timezone)values(1,'AmphiprionCMS Site','http://localhost','UTC')
+
+END
+
+

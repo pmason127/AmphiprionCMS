@@ -17,7 +17,7 @@
         {
             var path = Url.Action("view", new {p = Url.Encode(Model.CurrentPath + "/" + file.Name),d="100x100"});
             <li>
-                <a href="#" title="@file.Name" data-path="@path" class="file-item">
+                <a href="#" title="@file.Name" data-path="@Url.Action("view", new {p=Url.Encode(Model.CurrentPath + "/" + file.Name)})" class="file-item">
                     @if (file.IsImage)
                     {
                         <img src="@path" alt="@file.Name" />
@@ -26,7 +26,7 @@
                     {
                         <i class="icon-newspaper"></i>
                     }
-                   <span class="file-name">@file.Name</span>
+                    <span class="file-name">@file.Name</span>
                 </a>
                 
             </li>

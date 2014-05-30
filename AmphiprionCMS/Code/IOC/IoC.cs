@@ -64,7 +64,7 @@ namespace AmphiprionCMS.DependencyInjection {
                                return c.GetInstance<HttpContextBase>().GetOwinContext().Authentication;
                             });
                             x.For(typeof (ISearchIndexProvider<>)).Use(typeof (SearchIndexProvider<>));
-
+                            x.For<ISettingsRepository>().Singleton().Use<SettingsRepository>();
                         });
 
 

@@ -14,7 +14,11 @@ namespace AmphiprionCMS.Areas.AmpAdministration
 
         public override void RegisterArea(AreaRegistrationContext context) 
         {
-
+            context.MapRoute(
+              "Administration_settings",
+              "amp-admin/settings",
+              new { controller = "AmpSettings", action = "Settings" }
+          );
             context.MapRoute(
                "Administration_PageAdd",
                "amp-admin/page/add",
