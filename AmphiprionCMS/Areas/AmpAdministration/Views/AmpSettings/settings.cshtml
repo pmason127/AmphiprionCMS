@@ -43,6 +43,13 @@
                 </div>
             </div>
             <div class="form-group">
+                @Html.LabelFor(model => model.MetaKeywords, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.MetaKeywords, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MetaKeywords)
+                </div>
+            </div>
+            <div class="form-group">
                 @Html.LabelFor(model => model.RawHeader, new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.TextAreaFor(model => model.RawHeader, new { @class = "form-control" })

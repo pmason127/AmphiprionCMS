@@ -15,12 +15,6 @@ namespace AmphiprionCMS
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute("content_page"
-                , "{*path}"
-                , new { controller = "AmpPage", action = "Page", lang = "en" }
-                , new {page = new CMSIgnoreRouteContraint()}
-                );
-
         }
     }
 }

@@ -55,13 +55,13 @@
     <Reference Include="Lucene.Net">
       <HintPath>..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNet.Identity.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.0.0-alpha1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.0.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.0.0-alpha1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.0.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Owin, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -196,40 +196,11 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Areas\AmpAdministration\AmpAdministrationAreaRegistration.cs" />
-    <Compile Include="Areas\AmpAdministration\Controllers\AccountController.cs" />
-    <Compile Include="Areas\AmpAdministration\Controllers\AmpSettingsController.cs" />
-    <Compile Include="Areas\AmpAdministration\Models\SettingsModel.cs" />
-    <Compile Include="Code\DateTimeModelBinder.cs" />
-    <Compile Include="Areas\AmpAdministration\Controllers\HomeController.cs" />
-    <Compile Include="Areas\AmpAdministration\Controllers\PageAdminController.cs" />
-    <Compile Include="Areas\AmpAdministration\Models\LoginViewModel.cs" />
-    <Compile Include="Areas\AmpAdministration\Models\PageCreateModel.cs" />
-    <Compile Include="Code\Client.cs" />
-    <Compile Include="Code\CMSIgnoreRouteContraint.cs" />
-    <Compile Include="Code\Constants.cs" />
-    <Compile Include="Code\Attributes.cs" />
-    <Compile Include="Code\HtmlHelpers.cs" />
-    <Compile Include="Code\IOC\IoC.cs" />
-    <Compile Include="Code\IOC\StructureMapDependencyResolver.cs" />
-    <Compile Include="Code\IOC\StructureMapDependencyScope.cs" />
-    <Compile Include="Code\RouteDataExtensions.cs" />
-    <Compile Include="Code\ThemeHelper.cs" />
-    <Compile Include="Code\ThemeRazorViewEngine.cs" />
-    <Compile Include="Controllers\AmphiprionCMS\ErrorController.cs" />
-    <Compile Include="Areas\AmpAdministration\Controllers\FileController.cs" />
-    <Compile Include="Controllers\AmphiprionCMS\AmpPageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\AmphirprionCMS\ContentPage.cs" />
-    <Compile Include="Models\AmphirprionCMS\Error.cs" />
-    <Compile Include="Areas\AmpAdministration\Models\FileBrowserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AmphiprionCMS\Content\iconmoon\demo.html" />
@@ -246,9 +217,6 @@
     <Content Include="AmphiprionCMS\Content\bootstrap.min.css" />
     <Content Include="AmphiprionCMS\Content\filebrowser.css" />
     <Content Include="AmphiprionCMS\Content\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Content\iconmoon\demo.html" />
-    <Content Include="Content\iconmoon\fonts\icomoon.svg" />
-    <Content Include="Content\iconmoon\style.css" />
     <Content Include="AmphiprionCMS\Content\images\amp150.png" />
     <Content Include="AmphiprionCMS\Content\images\spinner.gif" />
     <Content Include="favicon.ico" />
@@ -266,6 +234,7 @@
     <Content Include="AmphiprionCMS\Content\iconmoon\fonts\icomoon.woff" />
     <Content Include="Areas\AmpAdministration\Views\AmpSettings\settings.cshtml" />
     <Content Include="Areas\AmpAdministration\Views\Shared\EditorTemplates\String.cshtml" />
+    <Content Include="Areas\AmpAdministration\Views\AmpMenu\index.cshtml" />
     <None Include="Areas\AmpAdministration\Views\Shared\_LoginPartial.cshtml.k" />
     <Content Include="AmphiprionCMS\Scripts\ckeditor\CHANGES.md" />
     <Content Include="AmphiprionCMS\Scripts\ckeditor\LICENSE.md" />
@@ -296,9 +265,6 @@
     <Content Include="Areas\AmpAdministration\Views\Account\Login.cshtml" />
     <Content Include="Areas\AmpAdministration\Views\PageAdmin\List.cshtml" />
     <Content Include="Areas\AmpAdministration\Views\PageAdmin\_addEdit.cshtml" />
-    <Content Include="Content\iconmoon\fonts\icomoon.eot" />
-    <Content Include="Content\iconmoon\fonts\icomoon.ttf" />
-    <Content Include="Content\iconmoon\fonts\icomoon.woff" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="AmphiprionCMS\Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="AmphiprionCMS\Scripts\ckeditor\build-config.js" />
@@ -606,6 +572,9 @@
     <Content Include="Areas\AmpAdministration\Views\File\_files.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="Models\" />
     <Folder Include="Themes\Default\css\" />
     <Folder Include="Themes\Default\scripts\" />
   </ItemGroup>
@@ -616,6 +585,10 @@
     <ProjectReference Include="..\AmphiprionCMS.Components\AmphiprionCMS.Components.csproj">
       <Project>{10b45877-1957-4f78-b8a7-046679970cca}</Project>
       <Name>AmphiprionCMS.Components</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AmphiprionCMS.StructureMap\AmphiprionCMS.StructureMap.csproj">
+      <Project>{d2a45588-a707-42f9-ad01-1e771c5d2d63}</Project>
+      <Name>AmphiprionCMS.StructureMap</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

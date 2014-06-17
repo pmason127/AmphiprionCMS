@@ -6,13 +6,14 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using AmphiprionCMS.Areas.AmpAdministration.Models;
+using AmphiprionCMS.Code;
 using AmphiprionCMS.Components.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
 namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
 {
-   
+   [CMSAuthorize]
     public class AccountController : Controller
     {
         private UserManager<CMSUser,Guid> _userManager;
@@ -54,7 +55,7 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
         public ActionResult LogOff()
         {
             _authenticationManager.SignOut();
-            return RedirectToAction("Login", "Account", new { area = "Administration" });
+            return RedirectToAction("Login", "Account", new { area = "AmpAdministration" });
         }
         private async Task SignInAsync(CMSUser  user, bool isPersistent)
         {
@@ -69,7 +70,7 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
             }
             else
             {
-                return RedirectToAction("Index","Home",new {area="Administration"});
+                return RedirectToAction("Index","Home",new {area="AmpAdministration"});
             }
         }
 	}

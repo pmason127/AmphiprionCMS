@@ -4,15 +4,15 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Mvc;
 using AmphiprionCMS.Components;
 using AmphiprionCMS.Models;
-using Microsoft.Ajax.Utilities;
+
 
 namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
 {
+    [Authorize]
     public class FileController : Controller
     {
         //
@@ -71,7 +71,7 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
 
             return View(model);
         }
-
+        [AllowAnonymous]
         public ActionResult View()
         {
             var path = this.HttpContext.Request.QueryString["p"];

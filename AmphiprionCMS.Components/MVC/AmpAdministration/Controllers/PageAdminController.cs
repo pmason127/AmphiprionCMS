@@ -7,6 +7,7 @@ using Amphiprion.Data.Entities;
 using AmphiprionCMS.Areas.AmpAdministration.Models;
 using AmphiprionCMS.Code;
 using AmphiprionCMS.Components;
+using AmphiprionCMS.Components.Authentication;
 using AmphiprionCMS.Components.Security;
 using AmphiprionCMS.Components.Services;
 using AmphiprionCMS.Models;
@@ -14,15 +15,16 @@ using AmphiprionCMS.Models;
 
 namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
 {
+    [Authorize]
     public class PageAdminController : Controller
     {
         private IPageService _pageService;
-        private ISecurityService _securityService;
+        private ICMSAuthorization  _cmsAuthorization;
         private IFormatting _formatter;
-        public PageAdminController(IPageService pageService, ISecurityService securityService, IFormatting formatter)
+        public PageAdminController(IPageService pageService, ICMSAuthorization cmsAuth, IFormatting formatter)
         {
             _pageService = pageService;
-            _securityService = securityService;
+            _cmsAuthorization = cmsAuth;
             _formatter = formatter;
         }
         public ActionResult List(Guid? parentId)
@@ -46,25 +48,31 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
         // GET: /Administration/Page/
         public ActionResult Add(Guid? parentId)
         {
-            var user = _securityService.CurrentUser;
-            if (!_securityService.IsInAnyRole(user.Id, "editors", "administrators"))
+           if(!_cmsAuthorization.RequestPermission(Permission.CreatePage))
                 throw new HttpException(403, "Access Denied");
+
+            var canPublish = _cmsAuthorization.RequestPermission(Permission.PublishPage);
 
             var model = new PageCreateEditModel();
             model.ParentId = parentId ?? PageConstants.DefaultPageId;
-            model.IsApproved = true;
+            model.IsApproved = canPublish;
             model.PublishDateUtc = Client.LocalNow(this.HttpContext);
 
             return View("AddEdit",model);
         }
         public ActionResult Edit(Guid id)
         {
+            if (!_cmsAuthorization.RequestPermission(Permission.EditPage))
+                throw new HttpException(403, "Access Denied");
+
+            var canPublish = _cmsAuthorization.RequestPermission(Permission.PublishPage);
+
             var page = _pageService.GetPage(id);
             if (page == null)
                 throw new HttpException(404, "Page does not exist");
 
             var model = new PageCreateEditModel(page, this.HttpContext);
-            //TODO: Security check
+            model.IsApproved = canPublish;
             return View("AddEdit",model);
         }
 
@@ -73,12 +81,20 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
         [HandleAjaxModelErrors]
         public ActionResult Edit(PageCreateEditModel model)
         {
+            if (!_cmsAuthorization.RequestPermission(Permission.EditPage))
+                throw new HttpException(403, "Access Denied");
+
+            var canPublish = _cmsAuthorization.RequestPermission(Permission.PublishPage);
+
             if (!model.Id.HasValue)
                 ModelState.AddModelError("InvalidId", "The Id is not valid");
 
             if (ModelState.IsValid)
             {
                 var slug = model.Slug;
+                if (model.IsApproved)
+                    model.IsApproved = canPublish;
+
                 var p = MapPage(model);
                 if(p.Slug != slug)
                      slug = _pageService.CreateAndValidateSlug(p, false);
@@ -106,8 +122,16 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
         [HandleAjaxModelErrors]
         public ActionResult Add(PageCreateEditModel model)
         {
+            if (!_cmsAuthorization.RequestPermission(Permission.CreatePage))
+                throw new HttpException(403, "Access Denied");
+
+            var canPublish = _cmsAuthorization.RequestPermission(Permission.PublishPage);
+
             if (ModelState.IsValid)
             {
+                if (model.IsApproved)
+                    model.IsApproved = canPublish;
+
                 var p = MapPage(model);
                 var slug = _pageService.CreateAndValidateSlug(p, false);
                 if (!string.IsNullOrEmpty(slug))
@@ -134,6 +158,9 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
         {
             if (!Request.IsAjaxRequest())
                 return null;
+
+            if (!_cmsAuthorization.RequestPermission(Permission.DeletePage))
+                throw new HttpException(403, "Access Denied");
 
             bool deleted = false;
             if(id == PageConstants.DefaultPageId)

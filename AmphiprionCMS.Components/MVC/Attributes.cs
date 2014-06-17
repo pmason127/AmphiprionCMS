@@ -5,6 +5,8 @@ using System.Net;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using AmphiprionCMS.Components.Authentication;
+using Microsoft.Practices.ServiceLocation;
 
 namespace AmphiprionCMS.Code
 {
@@ -26,6 +28,30 @@ namespace AmphiprionCMS.Code
                                  httpContext.Request.Headers["__RequestVerificationToken"]);
         }
     }
+
+    public class CMSAuthorizeAttribute:AuthorizeAttribute
+    {
+        private ICMSAuthorization _auth;
+        public CMSAuthorizeAttribute(ICMSAuthorization auth)
+        {
+            _auth = auth;
+        }
+
+        public CMSAuthorizeAttribute():this(ServiceLocator.Current.GetInstance<ICMSAuthorization>())
+        {
+                
+        }
+        protected override bool AuthorizeCore(HttpContextBase httpContext)
+        {
+            return _auth.IsAuthenticated;
+        }
+
+        protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
+        {
+            filterContext.Result = new HttpUnauthorizedResult();
+        }
+    }
+
     public class HandleAjaxModelErrors:ActionFilterAttribute
     {
         public override void OnActionExecuted(ActionExecutedContext filterContext)

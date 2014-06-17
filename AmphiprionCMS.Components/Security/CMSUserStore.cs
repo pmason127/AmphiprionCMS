@@ -191,5 +191,17 @@ namespace AmphiprionCMS.Components.Security
                 return new EnumerableQuery<CMSRole>(_repo.GetRoles());
             }
         }
+
+
+        public Task<bool> GetEmailConfirmedAsync(CMSUser user)
+        {
+           // throw new NotImplementedException();
+            return Task.FromResult(true);
+        }
+
+        public Task SetEmailConfirmedAsync(CMSUser user, bool confirmed)
+        {
+            return Task.FromResult(0);
+        }
     }
 }

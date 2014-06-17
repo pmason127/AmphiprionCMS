@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Http.Dependencies;
 using Microsoft.Practices.ServiceLocation;
 using StructureMap;
 
@@ -27,7 +26,7 @@ namespace AmphiprionCMS.DependencyInjection
     /// <summary>
     /// The structure map dependency scope.
     /// </summary>
-    public class StructureMapDependencyScope : ServiceLocatorImplBase, IDependencyScope
+    public class StructureMapDependencyScope : ServiceLocatorImplBase
     {
         #region Constants and Fields
 

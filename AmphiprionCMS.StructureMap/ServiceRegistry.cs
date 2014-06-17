@@ -1,48 +1,37 @@
-
-
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web;
-
-using System.Web.Http;
-using System.Web.Mvc;
 using Amphiprion.Data;
-using AmphiprionCMS.Components;
+using AmphiprionCMS.Components.Authentication;
 using AmphiprionCMS.Components.Search;
 using AmphiprionCMS.Components.Security;
 using AmphiprionCMS.Components.Services;
 using AmphiprionCMS.Components.SQL;
+using AmphiprionCMS.DependencyInjection;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using Microsoft.Practices.ServiceLocation;
-
 using StructureMap;
 
-using StructureMap.Graph;
 
-
-namespace AmphiprionCMS.DependencyInjection {
-    public static class StructuremapMvc
+namespace AmphiprionCMS.Components.IOC
+{
+    public class StructureMapServiceRegistry
     {
-        public static void Start()
+        private IContainer _container;
+        private static IServiceLocator _service = null;
+        public IServiceLocator GetService()
         {
-            IContainer container = IoC.Initialize();
-            var resolver = new StructureMapDependencyResolver(container);
-            DependencyResolver.SetResolver(resolver);
-            GlobalConfiguration.Configuration.DependencyResolver = resolver;
-            ServiceLocator.SetLocatorProvider(() => resolver);
+            return _service;
         }
-        public static void DestroyScope()
+        public StructureMapServiceRegistry(IContainer container,IConfigurationSettings settings)
         {
-            ObjectFactory.ReleaseAndDisposeAllHttpScopedObjects();
-        }
-    }
-
-    public static class IoC {
-        public static IContainer Initialize() {
-            ObjectFactory.Initialize(x =>
-                        {
-
-                            x.Scan(cfg =>
+            _container = container;
+           _container.Configure(x => {
+                x.Scan(cfg =>
                             {
                                 cfg.AssemblyContainingType(typeof (IDocumentMapper<>));
                                 cfg.ConnectImplementationsToTypesClosing(typeof(IDocumentMapper<>));
@@ -61,27 +50,20 @@ namespace AmphiprionCMS.DependencyInjection {
                             x.For<ISecurityService>().Use<SecurityService>();
                             x.For<IAuthenticationManager>().Use((c) =>
                             {
-                               return c.GetInstance<HttpContextBase>().GetOwinContext().Authentication;
+                               return settings.AuthenticationManager(c.GetInstance<HttpContextBase>());
                             });
                             x.For(typeof (ISearchIndexProvider<>)).Use(typeof (SearchIndexProvider<>));
                             x.For<ISettingsRepository>().Singleton().Use<SettingsRepository>();
+                            x.For<ICMSAuthorization>().Use((c) =>
+                            {
+                                if(settings.Authorizer == null)
+                                    return new DefaultCMSAuthorization(c.GetInstance<ISecurityService>());
+
+                                return settings.Authorizer;
+                            });
                         });
 
-
-            return ObjectFactory.Container;
+           _service = new StructureMapDependencyScope(container);
         }
-
     }
-    //internal class EventModuleConvention : IRegistrationConvention
-    //{
-
-
-    //    public void Process(System.Type type, StructureMap.Configuration.DSL.Registry registry)
-    //    {
-    //        if (!type.IsAbstract && typeof(AdvancedFlightTracker.Api.v1.IEventModule).IsAssignableFrom(type))
-    //        {
-    //            registry.For(typeof(AdvancedFlightTracker.Api.v1.IEventModule)).Singleton().Use(type);
-    //        }
-    //    }
-    //}
 }

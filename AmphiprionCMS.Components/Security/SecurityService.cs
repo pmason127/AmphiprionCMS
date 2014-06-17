@@ -26,6 +26,7 @@ namespace AmphiprionCMS.Components.Security
         CMSUser CurrentUser { get; }
         AccessDefinition GetAccessDefinitionForUser(Page p, CMSUser user);
         IList<String> GetRoles();
+        IList<CMSUser> GetUsers();
     }
 
     public class SecurityService : ISecurityService
@@ -87,6 +88,11 @@ namespace AmphiprionCMS.Components.Security
         {
             _userManager.Create(user);
         }
+
+        public IList<CMSUser> GetUsers()
+        {
+            return _userManager.Users.ToList();
+        } 
         public CMSUser CurrentUser
         {
             get
