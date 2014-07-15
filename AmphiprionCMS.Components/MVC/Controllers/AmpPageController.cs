@@ -11,11 +11,10 @@ namespace AmphiprionCMS.Controllers
     public class AmpPageController : Controller
     {
         private IPageService _pageService;
-        private ISecurityService _securityService;
-        public AmpPageController(IPageService pageService, ISecurityService securityService)
+        public AmpPageController(IPageService pageService)
         {
             _pageService = pageService;
-            _securityService = securityService;
+          
         }
 
      

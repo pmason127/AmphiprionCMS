@@ -1,4 +1,6 @@
-﻿@model AmphiprionCMS.Areas.AmpAdministration.Models.PageCreateEditModel
+﻿@using AmphiprionCMS.Code
+@using AmphiprionCMS.Components
+@model AmphiprionCMS.Areas.AmpAdministration.Models.PageCreateEditModel
 
 @using (Html.BeginForm())
 {
@@ -46,7 +48,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.PublishDateUtc, new { @class = "control-label" })
                                 <div>
-                                    @Html.EditorFor(model => model.PublishDateUtc)
+                                    @Html.EditorFor(model => model.PublishDateUtc) (@Client.GetTimeZoneDisplay(this.Context))
                                     @Html.ValidationMessageFor(model => model.PublishDateUtc)
                                 </div>
                             </div>

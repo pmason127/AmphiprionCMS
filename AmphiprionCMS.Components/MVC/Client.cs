@@ -52,5 +52,11 @@ namespace AmphiprionCMS.Code
 
             return offset;
         }
+
+        public static  string GetTimeZoneDisplay(HttpContextBase context)
+        {
+            var tzOffset = (GetClientTimezoneOffsetInMinutes(context) * -1) /60;
+            return ("UTC " + (tzOffset > 0 ? "+" : "") + tzOffset.ToString()).TrimEnd();
+        }
     }
 }

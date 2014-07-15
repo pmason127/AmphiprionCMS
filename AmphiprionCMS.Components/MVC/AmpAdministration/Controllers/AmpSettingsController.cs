@@ -22,7 +22,7 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
          }
         public ActionResult Settings()
         {
-            if (!_cmsAuthorization.RequestPermission(Permission.ManageSettings))
+            if (!_cmsAuthorization.RequestPermission(CMSPermissions.ManageSiteSettings))
                 throw new HttpException(403, "Access Denied");
 
             var settings = SiteSettings.Current;

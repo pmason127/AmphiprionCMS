@@ -135,11 +135,11 @@ namespace AmphiprionCMS.Components.Security
             Authentication.SignOut();
         }
 
-        public bool RequestPermission(Permission permission)
+        public bool RequestPermission(string permission)
         {
             if (IsAdministrator) return true;
             string[] roles;
-            if (permission == Permission.PublishPage)
+            if (permission == CMSPermissions.PublishPage)
                 roles = new[] { "Publishers" };
             else
                 roles = new[] { "Editors", "Publishers" };
@@ -162,6 +162,10 @@ namespace AmphiprionCMS.Components.Security
                     return false;
                 return IsInRoles(CurrentUser.Id, "administrators");
             }
+        }
+        public bool CanAccessSection(string section)
+        {
+            return true;
         }
     }
 }
