@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Configuration;
 using Amphiprion.Data.Entities;
+using AmphiprionCMS.Components.Authentication;
+using AmphiprionCMS.Components.SQL;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
@@ -14,22 +16,15 @@ namespace AmphiprionCMS.Components.Security
 {
     public enum AccessType{Read,Edit,Delete,Publish}
 
-    public interface ISecurityService
+    public class InvalidUserException : ApplicationException
     {
-        bool IsInRoles(Guid id, params string[] rolesToCheck);
-        bool IsInAnyRole(Guid id, params string[] rolesToCheck);
-        void RemoveUser(Guid id);
-        CMSUser GetUser(Guid id);
-        CMSUser GetUser(string username);
-        CMSUser GetUserByEmail(string email);
-        void CreateUser(CMSUser user);
-        CMSUser CurrentUser { get; }
-        AccessDefinition GetAccessDefinitionForUser(Page p, CMSUser user);
-        IList<String> GetRoles();
-        IList<CMSUser> GetUsers();
+        public InvalidUserException():base("User not found or credentials not valid")
+        {
+                
+        }
     }
-
-    public class SecurityService : ISecurityService
+  
+    public class SecurityService : ICMSAuthentication,ICMSAuthorization
     {
         private static readonly AccessDefinition AdminDefinitionTemplate = new AccessDefinition() { CanDelete = true, CanEdit = true, CanPublish = true, CanRead = true };
         private static readonly AccessDefinition EditorDefinitionTemplate = new AccessDefinition() { CanDelete = true, CanEdit = true, CanPublish = false, CanRead = true };
@@ -38,19 +33,16 @@ namespace AmphiprionCMS.Components.Security
         private UserManager<CMSUser, Guid> _userManager = null;
         private RoleManager<CMSRole, string> _roleManager = null;
         private HttpContextBase _context = null;
-        private IAuthenticationManager _auth;
+        
         private CMSUser anonymous;
         public SecurityService(HttpContextBase httpContext
-            ,IUserStore<CMSUser,Guid> userStore
-            ,IRoleStore<CMSRole,string> roleStore
-            ,IAuthenticationManager authManager)
+          ,ICMSUserRepository userRepo
+           )
         {
-                _userManager = new UserManager<CMSUser, Guid>(userStore);
-            _roleManager = new RoleManager<CMSRole, string>(roleStore);
+            _userManager = new UserManager<CMSUser, Guid>(new CMSUserStore(userRepo));
+            _roleManager = new RoleManager<CMSRole, string>(new CMSUserStore(userRepo));
             _context = httpContext;
-            _auth = authManager;
             anonymous = _userManager.FindByName("anonymous");
-
         }
 
         public bool IsInRoles(Guid id, params string[] rolesToCheck)
@@ -98,7 +90,7 @@ namespace AmphiprionCMS.Components.Security
             get
             {
                
-                var user = _auth.User;
+                var user = Authentication.User;
                 if (user == null || !user.Identity.IsAuthenticated)
                     return anonymous;
 
@@ -108,49 +100,68 @@ namespace AmphiprionCMS.Components.Security
         }
 
        
-        public AccessDefinition GetAccessDefinitionForUser(Page p,CMSUser user)
-        {
-            var roles = _userManager.GetRoles(user.Id);
-            if(roles.Any(r => r == "administrators"))
-                return AdminDefinitionTemplate;
-
-            if ((p.AccessDefinition == null || !p.AccessDefinition.Any()))
-            {
-                if (roles.Any(r => r == "publishers"))
-                    return PublisherDefinitionTemplate;
-
-                if (roles.Any(r => r == "editors"))
-                    return EditorDefinitionTemplate;
-
-                return DefaultDefinitionTemplate;
-            }
-
-
-
-            var emptyDef = roles.Select(r => new AccessDefinition() { RoleId = r });
-
-            var ins = p.AccessDefinition.Intersect(emptyDef, new AccessDefinitionComparer());
-
-            var normalizedView = new AccessDefinition() { PageId =p.Id.Value, CanDelete = false, CanEdit = false, CanPublish = false, CanRead = false };
-            foreach (var ad in ins)
-            {
-                if (ad.CanRead)
-                    normalizedView.CanRead = true;
-                if (ad.CanPublish)
-                    normalizedView.CanPublish = true;
-                if (ad.CanEdit)
-                    normalizedView.CanEdit = true;
-                if (ad.CanDelete)
-                    normalizedView.CanDelete = true;
-            }
-
-            return normalizedView;
-        }
+     
 
 
         public IList<string> GetRoles()
         {
             return _roleManager.Roles.Select(r => r.Id).ToList();
+        }
+
+        public bool IsAuthenticated
+        {
+            get
+            {
+                var user = Authentication.User;
+                if (user == null)
+                    return false;
+
+                return user.Identity.IsAuthenticated;
+            }
+        }
+
+        public void SignIn(string userName, string password, bool isPersistent)
+        {
+            var user =  _userManager.Find(userName, password);
+            if (user == null)
+                throw new InvalidUserException();
+
+            var identity =  _userManager.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
+            Authentication.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, identity);
+        }
+
+        public void SignOut()
+        {
+            Authentication.SignOut();
+        }
+
+        public bool RequestPermission(Permission permission)
+        {
+            if (IsAdministrator) return true;
+            string[] roles;
+            if (permission == Permission.PublishPage)
+                roles = new[] { "Publishers" };
+            else
+                roles = new[] { "Editors", "Publishers" };
+
+            return IsInAnyRole(CurrentUser.Id, roles);
+        }
+
+        private IAuthenticationManager Authentication
+        {
+            get
+            {
+                return _context.GetOwinContext().Authentication;
+            }
+        }
+        private bool IsAdministrator
+        {
+            get
+            {
+                if (!IsAuthenticated)
+                    return false;
+                return IsInRoles(CurrentUser.Id, "administrators");
+            }
         }
     }
 }

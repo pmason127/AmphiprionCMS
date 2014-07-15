@@ -1,27 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
 using AmphiprionCMS.Areas.AmpAdministration.Models;
 using AmphiprionCMS.Code;
-using AmphiprionCMS.Components.Security;
-using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
+using AmphiprionCMS.Components.Authentication;
+
 
 namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
 {
    [CMSAuthorize]
     public class AccountController : Controller
     {
-        private UserManager<CMSUser,Guid> _userManager;
-        private IAuthenticationManager _authenticationManager;
-        public AccountController(IAuthenticationManager authenticationManager, IUserStore<CMSUser,Guid> userStore )
+        private ICMSAuthentication  _authenticationManager;
+        public AccountController(ICMSAuthentication authenticationManager)
         {
             _authenticationManager = authenticationManager;
-            _userManager = new UserManager<CMSUser, Guid>(userStore);
+         
         }
         [AllowAnonymous]
         public ActionResult Login()
@@ -35,14 +29,14 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindAsync(model.UserName, model.Password);
-                if (user != null)
+               try
                 {
-                    await SignInAsync(user, model.RememberMe);
+                    await SignInAsync(model.UserName, model.Password, model.RememberMe);
                     return RedirectToLocal(returnUrl);
                 }
-                else
+                catch (Exception)
                 {
+
                     ModelState.AddModelError("", "Invalid username or password.");
                 }
             }
@@ -57,10 +51,9 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
             _authenticationManager.SignOut();
             return RedirectToAction("Login", "Account", new { area = "AmpAdministration" });
         }
-        private async Task SignInAsync(CMSUser  user, bool isPersistent)
+        private async Task SignInAsync(string username,string password,bool isPersistent)
         {
-            var identity = await _userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
-            _authenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, identity);
+            _authenticationManager.SignIn(username, password, isPersistent);
         }
         private ActionResult RedirectToLocal(string returnUrl)
         {

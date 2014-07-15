@@ -6,62 +6,67 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using AmphiprionCMS.Code;
 using AmphiprionCMS.Components.Authentication;
+using AmphiprionCMS.Components.Security;
+using AmphiprionCMS.Components.SQL;
 using FluentValidation.Mvc;
 using Microsoft.Owin.Security;
+using Microsoft.Practices.ServiceLocation;
 
 
 namespace AmphiprionCMS.Components
 {
     public interface IConfigurationSettings
     {
-        ICMSAuthorization Authorizer { get; }
-        Func<HttpContextBase,IAuthenticationManager> AuthenticationManager { get; }
+         ICMSAuthorization Authorizer { get; }
+         ICMSAuthentication AuthenticationManager { get; }
     }
 
     public interface IConfigurationSetupExpression
     {
-        void SetAuthorization(ICMSAuthorization authorizer);
-        void SetAuthentication(Func<HttpContextBase, IAuthenticationManager> manager);
+        void SetAuthorization(Func<HttpContextBase, ICMSAuthorization> auth);
+        void SetAuthentication(Func<HttpContextBase, ICMSAuthentication> manager);
     }
    
     internal class AmphiprionCMSConfiguration:IConfigurationSettings,IConfigurationSetupExpression
     {
-        private ICMSAuthorization _authorizer = null;
-        private Func<HttpContextBase, IAuthenticationManager> _authentication = null;
+        private Func<HttpContextBase, ICMSAuthorization> _authorizer = null;
+        private Func<HttpContextBase, ICMSAuthentication> _authentication = null;
         private HttpContextBase _httpConext = null;
         internal  AmphiprionCMSConfiguration(HttpContextBase httpContext)
         {
             _httpConext = httpContext;
         }
-        void IConfigurationSetupExpression.SetAuthorization(ICMSAuthorization authorizer)
+        void IConfigurationSetupExpression.SetAuthorization(Func<HttpContextBase, ICMSAuthorization> auth)
         {
-            _authorizer = authorizer;
+            _authorizer = auth;
         }
 
-        void IConfigurationSetupExpression.SetAuthentication(Func<HttpContextBase, IAuthenticationManager> manager)
+        void IConfigurationSetupExpression.SetAuthentication(Func<HttpContextBase, ICMSAuthentication> manager)
         {
             _authentication = manager;
         }
-
+       
         ICMSAuthorization IConfigurationSettings.Authorizer
         {
             get
             {
-                return _authorizer;
+                if (_authorizer == null)
+                {
+                    _authorizer = (c) => new SecurityService(c, ServiceLocator.Current.GetInstance<ICMSUserRepository>());
+                }
+                return _authorizer(ServiceLocator.Current.GetInstance<HttpContextBase>());
             }
         }
 
-        Func<HttpContextBase,IAuthenticationManager> IConfigurationSettings.AuthenticationManager
+        ICMSAuthentication IConfigurationSettings.AuthenticationManager
         {
             get
             {
-                if(_authentication != null)
-                   return _authentication;
-
-                return (c) =>
+                if (_authentication == null)
                 {
-                    return c.GetOwinContext().Authentication;
-                };
+                    _authentication = (c) => new SecurityService(c,ServiceLocator.Current.GetInstance<ICMSUserRepository>());
+                }
+                return _authentication((ServiceLocator.Current.GetInstance<HttpContextBase>()));
             }
 
         }

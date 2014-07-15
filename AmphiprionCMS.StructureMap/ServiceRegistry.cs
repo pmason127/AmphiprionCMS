@@ -39,28 +39,19 @@ namespace AmphiprionCMS.Components.IOC
 
                             x.For<HttpContextBase>().HybridHttpOrThreadLocalScoped().Use(()=> new HttpContextWrapper(HttpContext.Current));
                             x.For<ISiteInitializer>().Use<DefaultSiteInitializer>();
-                            x.For<IUserStore<CMSUser,Guid>>().Singleton().Use<CMSUserStore>();
-                            x.Forward<IUserStore<CMSUser, Guid>,IRoleStore<CMSRole,string>>();
+                           
                             x.For<ICMSUserRepository>().Singleton().Use<CMSUserRepository>();
                             x.For<IConnectionManager>().Use<MSSQLConnectionManager>();
                             x.For<IPageRepository>().Singleton().Use<PageRepository>();
                             x.For<IPageService>().Singleton().Use<PageService>();
                             x.For<IFormatting>().Singleton().Use<Formatting>();
                             x.For<IImagingService>().Singleton().Use<ImagingService>();
-                            x.For<ISecurityService>().Use<SecurityService>();
-                            x.For<IAuthenticationManager>().Use((c) =>
-                            {
-                               return settings.AuthenticationManager(c.GetInstance<HttpContextBase>());
-                            });
+
+                            x.For<ICMSAuthentication>().HybridHttpOrThreadLocalScoped().Use((c) => settings.AuthenticationManager );
                             x.For(typeof (ISearchIndexProvider<>)).Use(typeof (SearchIndexProvider<>));
                             x.For<ISettingsRepository>().Singleton().Use<SettingsRepository>();
-                            x.For<ICMSAuthorization>().Use((c) =>
-                            {
-                                if(settings.Authorizer == null)
-                                    return new DefaultCMSAuthorization(c.GetInstance<ISecurityService>());
-
-                                return settings.Authorizer;
-                            });
+                            x.For<ICMSAuthorization>().HybridHttpOrThreadLocalScoped().Use((c) => settings.Authorizer);
+                           
                         });
 
            _service = new StructureMapDependencyScope(container);

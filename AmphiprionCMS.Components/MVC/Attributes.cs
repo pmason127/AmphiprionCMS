@@ -31,13 +31,14 @@ namespace AmphiprionCMS.Code
 
     public class CMSAuthorizeAttribute:AuthorizeAttribute
     {
-        private ICMSAuthorization _auth;
-        public CMSAuthorizeAttribute(ICMSAuthorization auth)
+        private ICMSAuthentication _auth;
+        public CMSAuthorizeAttribute(ICMSAuthentication auth)
         {
             _auth = auth;
         }
 
-        public CMSAuthorizeAttribute():this(ServiceLocator.Current.GetInstance<ICMSAuthorization>())
+        public CMSAuthorizeAttribute()
+            : this(ServiceLocator.Current.GetInstance<ICMSAuthentication>())
         {
                 
         }

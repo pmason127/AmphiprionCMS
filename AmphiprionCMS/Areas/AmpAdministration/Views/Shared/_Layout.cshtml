@@ -38,10 +38,25 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Dashboard</a></li>
-                        <li><a href="#">Settings</a></li>
-                        <li><a href="#">Profile</a></li>
-                        <li><a href="#">Help</a></li>
+                      
+                    
+                        <li>
+                            @if (AmphiprionCMS.Components.Authentication.Authentication.Current.IsAuthenticated)
+                            {
+                                using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm", @class = "navbar-right"}))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <a class="logout-link" href="javascript:document.getElementById('logoutForm').submit()">Log off @AmphiprionCMS.Components.Authentication.Authentication.Current.CurrentUser.UserName</a>
+                                }
+                            }
+                            else
+                            {
+                                <a href="#">Login</a>
+                            }  
+                           
+                        </li>
+                       
+
                     </ul>
                     <form class="navbar-form navbar-right">
                         <input type="text" class="form-control" placeholder="Search...">
