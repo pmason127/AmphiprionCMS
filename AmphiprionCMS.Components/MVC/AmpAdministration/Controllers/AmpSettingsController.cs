@@ -20,6 +20,7 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
          {
              _cmsAuthorization = auth;
          }
+        [CMSAuthorize(CMSPermissions.ManageSiteSettings)]
         public ActionResult Settings()
         {
             if (!_cmsAuthorization.RequestPermission(CMSPermissions.ManageSiteSettings))
@@ -32,6 +33,7 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [HandleAjaxModelErrors]
+        [CMSAuthorize(CMSPermissions.ManageSiteSettings)]
         public ActionResult Settings(SettingsModel model)
         {
             if (ModelState.IsValid)

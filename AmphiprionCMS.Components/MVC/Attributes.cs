@@ -31,26 +31,50 @@ namespace AmphiprionCMS.Code
 
     public class CMSAuthorizeAttribute:AuthorizeAttribute
     {
-        private ICMSAuthentication _auth;
-        public CMSAuthorizeAttribute(ICMSAuthentication auth)
-        {
-            _auth = auth;
-        }
-
         public CMSAuthorizeAttribute()
-            : this(ServiceLocator.Current.GetInstance<ICMSAuthentication>())
         {
                 
         }
+        public CMSAuthorizeAttribute(string permission)
+        {
+            _permission = permission;
+        }
+
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            return _auth.IsAuthenticated;
+            var authenticaton = ServiceLocator.Current.GetInstance<ICMSAuthentication>();
+            var authorizer = ServiceLocator.Current.GetInstance<ICMSAuthorization>();
+
+            if (!authenticaton.IsAuthenticated)
+                return false;
+
+           if(!string.IsNullOrEmpty(Permission))
+               if (!authorizer.RequestPermission(Permission))
+                return false;
+
+            return true;
         }
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
-            filterContext.Result = new HttpUnauthorizedResult();
+            var authenticaton = ServiceLocator.Current.GetInstance<ICMSAuthentication>();
+            if (!authenticaton.IsAuthenticated)
+                filterContext.Result = new HttpUnauthorizedResult();
+            else
+                filterContext.Result = new HttpStatusCodeResult(HttpStatusCode.Forbidden);
         }
+        private string _permission;
+ 
+        public string Permission
+        {
+            get { return _permission ?? String.Empty; }
+            set
+            {
+                _permission = value;
+              
+            }
+        }
+        
     }
 
     public class HandleAjaxModelErrors:ActionFilterAttribute

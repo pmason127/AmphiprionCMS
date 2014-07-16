@@ -15,7 +15,7 @@ using AmphiprionCMS.Models;
 
 namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
 {
-    [Authorize]
+
     public class PageAdminController : Controller
     {
         private IPageService _pageService;
@@ -27,6 +27,7 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
             _cmsAuthorization = cmsAuth;
             _formatter = formatter;
         }
+        [CMSAuthorize(CMSPermissions.ViewPageManagement)]
         public ActionResult List(Guid? parentId)
         {
             var pages = _pageService.ListPages(null, false, true, true);
@@ -36,6 +37,7 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
                 return View("List", hierarchy);
             return Json(hierarchy, JsonRequestBehavior.AllowGet);
         }
+        [CMSAuthorize(CMSPermissions.ViewPageManagement)]
         public ActionResult Get(Guid id)
         {
 
@@ -46,11 +48,10 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
         }
         //
         // GET: /Administration/Page/
+        [CMSAuthorize(CMSPermissions.CreatePage)]
         public ActionResult Add(Guid? parentId)
         {
-           if(!_cmsAuthorization.RequestPermission(CMSPermissions.CreatePage))
-                throw new HttpException(403, "Access Denied");
-
+           
             var canPublish = _cmsAuthorization.RequestPermission(CMSPermissions.PublishPage);
 
             var model = new PageCreateEditModel();
@@ -79,10 +80,10 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [HandleAjaxModelErrors]
+        [CMSAuthorize(CMSPermissions.EditPage)]
         public ActionResult Edit(PageCreateEditModel model)
         {
-            if (!_cmsAuthorization.RequestPermission(CMSPermissions.EditPage))
-                throw new HttpException(403, "Access Denied");
+           
 
             var canPublish = _cmsAuthorization.RequestPermission(CMSPermissions.PublishPage);
 
@@ -120,11 +121,10 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [HandleAjaxModelErrors]
+        [CMSAuthorize(CMSPermissions.CreatePage)]
         public ActionResult Add(PageCreateEditModel model)
         {
-            if (!_cmsAuthorization.RequestPermission(CMSPermissions.CreatePage))
-                throw new HttpException(403, "Access Denied");
-
+           
             var canPublish = _cmsAuthorization.RequestPermission(CMSPermissions.PublishPage);
 
             if (ModelState.IsValid)
@@ -154,6 +154,7 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
         [HttpPost]
         [ValidateJsonAntiForgeryToken]
         [HandleAjaxModelErrors]
+        [CMSAuthorize(CMSPermissions.DeletePage)]
         public ActionResult Delete(Guid id)
         {
             if (!Request.IsAjaxRequest())
