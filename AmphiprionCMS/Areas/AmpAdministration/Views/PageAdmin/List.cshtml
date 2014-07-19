@@ -37,55 +37,63 @@
     @helper ShowTree(PageHierarchyModel root)
 {
     bool hasChildren = root.Children.Any();
-    <li>
-        @if (hasChildren)
-        {
-            <i class="icon-minus expand" title="Expand this branch"></i>
-        }
-        @if (root.IsHomepage)
-        {
-             <span data-id="@root.Id" data-title="Root" ><i class="@(hasChildren?"icon-copy3": "icon-file4")"></i>Root</span>
-        }
-        else
-        {
-             <span data-id="@root.Id" data-title="@root.Title" ><i class="@(hasChildren?"icon-copy3": "icon-file4")"></i>@root.Title (@root.Slug)</span>
-        }
-        
-        
-      
-        @if (!root.IsHomepage)
-        {
-             <a href="@Url.Action("Edit","Page",new {id=root.Id})" class="edit-page toggle" style="display:none;"><i class="icon-pencil"></i>Edit</a>
-            if (!hasChildren)
-             {
-                   <a href="#" class="delete-page toggle red" data-id="@root.Id" style="display: none;"><i class="icon-close"></i>Delete</a>
-             }
-          
-        }
-
-        <a href="@Url.Content(string.IsNullOrEmpty(root.Path)?"~/":"~" + root.Path)"><i class="icon-eye" title="View Page"></i>View</a>
-        @if (root.IsApproved)
-        {
-
-            if (!root.PublishDateUtc.HasValue || root.PublishDateUtc > DateTime.UtcNow)
+        <li>
+            @if (hasChildren)
             {
-                <i class="icon-clock" title="This post will be published in the future"></i>
+                <i class="icon-minus expand" title="Expand this branch"></i>
+            }
+            @if (root.IsRoot)
+            {
+                <span data-id="@root.Id" data-title="Root" ><i class="@(hasChildren?"icon-copy3": "icon-file4")"></i>Root</span>
             }
             else
             {
-                <i class="icon-checkmark-circle green" title="This post is published"></i>
+                <span data-id="@root.Id" data-title="@root.Title" class="@(root.IsHomepage?"homepage": "")">
+                    <i class="@(hasChildren?"icon-copy3": "icon-file4")"></i>
+                    @if (root.IsHomepage)
+                    {
+                        <i class="icon-home" title="This is your current Home Page"></i>
+
+                    }
+                    @root.Title (@root.Slug)
+                </span>
             }
-        }
-        @if (hasChildren)
-        {
-            <ul>
-                @foreach (var page in root.Children)
+        
+        
+      
+            @if (!root.IsRoot)
+            {
+                <a href="@Url.Action("Edit","Page",new {id=root.Id})" class="edit-page toggle" style="display:none;"><i class="icon-pencil"></i>Edit</a>
+                if (!hasChildren)
                 {
-                    @ShowTree(page)
+                    <a href="#" class="delete-page toggle red" data-id="@root.Id" style="display: none;"><i class="icon-close"></i>Delete</a>
                 }
-            </ul>
-        }
-    </li>
+          
+            }
+
+            <a href="@Url.Content(string.IsNullOrEmpty(root.Path)?"~/":"~" + root.Path)"><i class="icon-eye" title="View Page"></i>View</a>
+            @if (root.IsApproved)
+            {
+
+                if (!root.PublishDateUtc.HasValue || root.PublishDateUtc > DateTime.UtcNow)
+                {
+                    <i class="icon-clock" title="This post will be published in the future"></i>
+                }
+                else
+                {
+                    <i class="icon-checkmark-circle green" title="This post is published"></i>
+                }
+            }
+            @if (hasChildren)
+            {
+                <ul>
+                    @foreach (var page in root.Children)
+                    {
+                        @ShowTree(page)
+                    }
+                </ul>
+            }
+        </li>
 }
 
     <script type="text/javascript">

@@ -129,8 +129,12 @@ border-left: 3px solid #eee;
     }
 /************************************************/
 a.navbar-brand-icon{ float: left;padding: 0 15px;}
-.selected {
+.selected{
     background: #dcdcdc;
+}
+.homepage {
+    background-color: #e47e39;
+    font-weight: bold;
 }
 .green {
     color: #009900;

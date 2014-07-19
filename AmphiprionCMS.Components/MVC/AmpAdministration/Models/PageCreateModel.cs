@@ -99,6 +99,7 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Models
 
     public class PageHierarchyModel
     {
+        private bool _isHome = false;
         public PageHierarchyModel()
         {
             Children = new List<PageHierarchyModel>();
@@ -114,6 +115,7 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Models
             Slug = page.Slug;
             IsApproved = page.IsApproved;
             IsActive = page.IsActive;
+            _isHome = page.IsHomePage;
             this.PublishDateUtc = page.PublishDateUtc;
 
         }
@@ -127,6 +129,15 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Models
         public bool IsApproved { get; set; }
         public DateTime? PublishDateUtc { get; set; }
         public bool IsActive { get; set; }
-        public bool IsHomepage { get { return this.Id == PageConstants.DefaultPageId; }}
+
+        public bool IsHomepage
+        {
+            get
+            {
+                return _isHome && IsApproved && IsActive && PublishDateUtc <= DateTime.UtcNow;
+            }
+        }
+
+        public bool IsRoot { get { return string.IsNullOrEmpty(Path); } }
     }
 }
