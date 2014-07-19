@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Permissions;
 using System.Text;
@@ -19,6 +20,7 @@ namespace Amphiprion.Data
     {
         void Create(Page page);
         void Update(Page page);
+        Page GetHomePage();
         Page Get(Guid id);
         Page Get(string path);
         void Delete(Guid id);
@@ -53,9 +55,12 @@ AS
                 {
                     try
                     {
-                        
+
+                        if (page.IsHomePage)
+                            ClearHomePage(page,con,t);
                         page.Path = path;
                         con.Insert<Page>(page, t);
+
                      
                     }
                     catch (Exception)
@@ -70,6 +75,11 @@ AS
             }
         }
 
+        private void ClearHomePage(Page page, IDbConnection con, IDbTransaction  tr)
+        {
+            con.Execute("update ampPage set IsHomePage = 0 where IsHomePage=1 and Id <> @id", new {id = page.Id}, tr);
+
+        }
         public void Update(Page page)
         {
             using (var con = _connectionManager.GetConnection())
@@ -78,6 +88,9 @@ AS
                 {
                     try
                     {
+                        if (page.IsHomePage)
+                            ClearHomePage(page, con, t);
+
                         con.Update<Page>(page,t);
                         RecalculatePaths(con,t);
                     }
@@ -102,7 +115,38 @@ AS
             }
             return node;
         }
-        
+        public Page GetHomePage()
+        {
+            Page node = null;
+            using (var con = _connectionManager.GetConnection())
+            {
+                PredicateGroup mainGroup = new PredicateGroup()
+                {
+                    Operator = GroupOperator.Or,
+                    Predicates = new List<IPredicate>()
+                };
+                PredicateGroup secondGroup = new PredicateGroup()
+                {
+                    Operator = GroupOperator.And,
+                    Predicates = new List<IPredicate>()
+                };
+                secondGroup.Predicates.Add(Predicates.Field<Page>(p=>p.IsHomePage,Operator.Eq,true));
+                secondGroup.Predicates.Add(Predicates.Field<Page>(p => p.IsActive, Operator.Eq, true));
+                secondGroup.Predicates.Add(Predicates.Field<Page>(p => p.IsApproved, Operator.Eq, true));
+                secondGroup.Predicates.Add(Predicates.Field<Page>(p => p.PublishDateUtc, Operator.Le, DateTime.UtcNow));
+                mainGroup.Predicates.Add(Predicates.Field<Page>(p => p.Path, Operator.Eq, null));
+                mainGroup.Predicates.Add(secondGroup);
+
+                 var sort = new List<ISort>()
+                {
+                    Predicates.Sort<Page>(p => p.IsHomePage,false)
+                };
+                node = con.GetList<Page>(mainGroup, sort).FirstOrDefault();
+
+                con.Close();
+            }
+            return node;
+        }
         public Page Get(string path)
         {
             Page node = null;
@@ -194,7 +238,7 @@ AS
 
                     mainGroup.Predicates.Add(gr2);
                 }
-
+               // mainGroup.Predicates.Add(Predicates.Field<Page>(f=>f.Path,Operator.Eq, null,true));
                 pages = con.GetList<Page>(mainGroup, sort).ToList();
                 con.Close();
             }

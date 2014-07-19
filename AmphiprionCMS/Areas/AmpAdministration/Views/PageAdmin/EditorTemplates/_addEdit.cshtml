@@ -29,6 +29,13 @@
                             @Html.ValidationMessageFor(model => model.HtmlDescription)
                         </div>
                     </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IsHomePage, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.IsHomePage)
+                            @Html.ValidationMessageFor(model => model.IsHomePage)
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

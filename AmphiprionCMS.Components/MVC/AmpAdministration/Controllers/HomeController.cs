@@ -4,10 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AmphiprionCMS.Code;
+using AmphiprionCMS.Components.Authentication;
 
 namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
 {
-     [CMSAuthorize]
+     [CMSAuthorize(CMSPermissions.AccessAdminArea)]
     public class HomeController : Controller
     {
         //

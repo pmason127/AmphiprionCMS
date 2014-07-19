@@ -14,7 +14,8 @@ BEGIN
           [Path] nvarchar(512) null,
           MetaKeywords nvarchar(512) null,
           MetaDescription nvarchar(512) null,
-          ParentId uniqueidentifier null
+          ParentId uniqueidentifier null,
+		  IsHomePage bit not null
 		constraint fk_page_parentpage foreign key (ParentId) references ampPage(Id)
    )
 

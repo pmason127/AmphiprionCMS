@@ -20,6 +20,7 @@ namespace AmphiprionCMS.Components.Authentication
         public const string PublishPage =  "CMS.PublishPage"; 
         public const string ViewPageManagement =  "CMS.PageManagement"; 
         public const string ManageSiteSettings = "CMS.ManageSiteSettings";
+        public const string AccessAdminArea = "CMS.AccessAdministration";
     }
 
    

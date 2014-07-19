@@ -30,7 +30,7 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
         [CMSAuthorize(CMSPermissions.ViewPageManagement)]
         public ActionResult List(Guid? parentId)
         {
-            var pages = _pageService.ListPages(null, false, true, true);
+            var pages = _pageService.ListPages(null,false, true, true);
             var hierarchy = new PageHierarchyModel[] { GetHierarchy(pages) };
 
             if (!Request.IsAjaxRequest())
@@ -198,7 +198,7 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
             p.Title = HttpUtility.HtmlEncode(model.Title);
             p.HtmlDescription = model.HtmlDescription;
             p.CreateDateUtc = DateTime.UtcNow;
-
+            p.IsHomePage = model.IsHomePage;
             if (model.PublishDateUtc.HasValue)
             {
                 var offset = Client.GetClientTimezoneOffsetInMinutes(this.HttpContext);

@@ -53,7 +53,7 @@ namespace AmphiprionCMS.Components.Services
         public Page GetHomePage()
         {
          
-            return GetPage(PageConstants.DefaultPageId);
+            return _repo.GetHomePage();
         }
 
 

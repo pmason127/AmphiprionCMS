@@ -34,7 +34,7 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Models
 
             this.Slug = page.Slug;
             this.ParentId = page.ParentId;
-
+            this.IsHomePage = page.IsHomePage;
         }
         public virtual Guid? Id { get; set; }
         public virtual Guid? ParentId { get; set; }
@@ -61,6 +61,10 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Models
         [DefaultValue(false)]
         [DisplayName("Publish")]
         public virtual bool IsApproved { get; set; }
+
+        [DefaultValue(false)]
+        [DisplayName("Set as Home Page")]
+        public virtual bool IsHomePage { get; set; }
         [DataType(DataType.Text)]
         public virtual string Slug { get; set; }
 

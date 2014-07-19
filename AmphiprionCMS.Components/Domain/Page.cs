@@ -30,6 +30,7 @@ namespace Amphiprion.Data.Entities {
         public virtual string Author { get; set; }
         public virtual bool IsActive { get; set; }
         public virtual bool IsApproved { get; set; }
+        public virtual bool IsHomePage { get; set; }
         public virtual string Slug { get; set; }
         public IList<AccessDefinition> AccessDefinition { get; set; }
         public virtual string MetaKeywords { get; set; }
