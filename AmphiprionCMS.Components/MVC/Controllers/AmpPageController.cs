@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AmphiprionCMS.Components.MVC;
 using AmphiprionCMS.Components.Security;
 using AmphiprionCMS.Components.Services;
 using AmphiprionCMS.Models;
@@ -38,11 +39,13 @@ namespace AmphiprionCMS.Controllers
             else
             {
                  page = _pageService.GetPage("/" + path);
+                if (page.IsHomePage)
+                    return new PermanentRedirect("~/");
             }
 
             if (page == null  || !page.IsPagePublished)
             {
-                throw new HttpException(404,"Page not found");
+               return new HttpNotFoundResult();
             }
             var url =   Url.Content("~" + page.Path);;
             var cp = new ContentPage(lang, page,url);

@@ -183,6 +183,7 @@
     <Compile Include="MVC\DateTimeModelBinder.cs" />
     <Compile Include="MVC\HtmlHelpers.cs" />
     <Compile Include="MVC\Models\ContentPage.cs" />
+    <Compile Include="MVC\PermanentRedirect.cs" />
     <Compile Include="MVC\RouteDataExtensions.cs" />
     <Compile Include="MVC\ThemeHelper.cs" />
     <Compile Include="MVC\ThemeRazorViewEngine.cs" />
@@ -210,6 +211,9 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /y  "$(TargetPath)" "$(SolutionDir)NuGet\bin\$(TargetFileName)"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

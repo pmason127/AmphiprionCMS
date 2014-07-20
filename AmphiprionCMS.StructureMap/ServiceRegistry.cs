@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using System.Web;
 using Amphiprion.Data;
 using AmphiprionCMS.Components.Authentication;
 using AmphiprionCMS.Components.Search;
-using AmphiprionCMS.Components.Security;
 using AmphiprionCMS.Components.Services;
 using AmphiprionCMS.Components.SQL;
 using AmphiprionCMS.DependencyInjection;
-using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
 using Microsoft.Practices.ServiceLocation;
 using StructureMap;
 
