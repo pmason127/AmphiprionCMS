@@ -1,0 +1,25 @@
+﻿@using AmphiprionCMS.Components
+@model AmphiprionCMS.Models.ContentPage
+@section rawHeader{
+    @if (!string.IsNullOrEmpty(Model.Page.MetaDescription))
+    {
+     <meta name="description" content="@Model.Page.MetaDescription">
+    }
+    @if (!string.IsNullOrEmpty(Model.Page.MetaKeywords))
+    {
+      <meta name="keywords" content="@Model.Page.MetaKeywords">
+    }    
+}
+<div class="page-container">
+    <h1>@Model.Page.Title</h1>
+    <ul>
+        <li>
+            @Html.ActionLink("Edit","Edit",new{controller="PageAdmin",area="Administration",id=Model.Page.Id.Value})
+        </li>
+    </ul>
+    <div class="ugc">
+       @Html.Raw(Model.Page.HtmlDescription)
+    </div>
+</div>
+
+

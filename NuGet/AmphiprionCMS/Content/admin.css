@@ -1,0 +1,346 @@
+﻿/*
+ * Base structure
+ */
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+    padding-top: 60px;
+    background-color: #333;
+}
+.navbar {
+    min-height: 60px;
+}
+
+/*
+ * Global add-ons
+ */
+
+.sub-header {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+.backdrop {
+    position:fixed;
+    z-index:1060;
+    top:0;
+    right:0;
+    left:0;
+    bottom:0;
+    opacity:.5;
+    background-color:#000;
+}
+.backdrop-spinner{
+    background: #ffffff url('images/spinner.gif') no-repeat center center;
+    position:fixed;
+    padding: 25px;
+    border-radius: 10px;
+    right:0;
+    left:0;
+    margin:0 auto;
+    min-height:40px;
+    width: 40px;
+    z-index: 1061;
+             top:20%;
+}
+
+/*
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+.sidebar {
+    display: none;
+}
+
+/* Sidebar navigation */
+.nav-sidebar {
+    margin-right: -21px; /* 20px padding + 1px border */
+    margin-bottom: 20px;
+    margin-left: -20px;
+}
+
+    .nav-sidebar > li > a {
+        padding-right: 20px;
+        padding-left: 20px;
+        color: #999999;
+    }
+
+    .nav-sidebar > .active > a,  .nav-sidebar > .active > a:hover {
+        color: #fff;
+        background-color: #e47e39;
+    }
+      .nav > li > a:hover,.nav > li a:focus {
+          background-color: #333;
+          color:#fff;
+      }
+
+/*
+ * Main content
+ */
+
+.main {
+    padding: 30px;
+}
+
+
+.main .page-header {
+    margin-top: 0;
+}
+
+.callout.error {
+    background-color: #fdf7f7;
+    border-color: #d9534f;
+}
+.callout.error ul {
+    margin: 0;
+    padding: 0;
+    list-style: none; 
+}
+.callout.error ul li {
+    margin: 0;
+    padding: 0;
+}
+.callout {
+   margin: 20px 0;
+padding: 20px;
+border-left: 3px solid #eee;
+}
+
+/*
+ * Placeholder dashboard ideas
+ */
+
+.placeholders {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+    .placeholders h4 {
+        margin-bottom: 0;
+    }
+
+.placeholder {
+    margin-bottom: 20px;
+}
+
+    .placeholder img {
+        display: inline-block;
+        border-radius: 50%;
+    }
+/************************************************/
+a.navbar-brand-icon{ float: left;padding: 0 15px;}
+.selected{
+    background: #dcdcdc;
+}
+.homepage {
+    background-color: #e47e39;
+    font-weight: bold;
+}
+.green {
+    color: #009900;
+}
+.red {
+    color: #ff0000;
+}
+.tree li a.preview {
+    border: none;color: #000;
+}
+footer {
+    padding-left: 15px;
+    padding-right: 15px;
+    color: #ffffff;
+}
+
+
+
+i.glyphicon, i[class*='icon-'] {
+    margin-right: 8px;
+}
+/*
+ * Main content
+ */
+
+.main {
+    padding: 20px;
+    background-color: #fff;
+}
+
+
+.main .page-header {
+    margin-top: 0;
+}
+
+
+/*Tree*/
+.tree {
+    min-height: 20px;
+    padding: 19px;
+    margin-bottom: 20px;
+    background-color: #fbfbfb;
+    border: 1px solid #999;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+    .tree li {
+        list-style-type: none;
+        margin: 0;
+        padding: 10px 5px 0 5px;
+        position: relative;
+    }
+
+        .tree li::before, .tree li::after {
+            content: '';
+            left: -30px;
+            position: absolute;
+            right: auto;
+        }
+
+        .tree li::before {
+            border-left: 1px solid #ddd;
+            bottom: 50px;
+            height: 100%;
+            top: 0;
+            width: 1px;
+        }
+
+        .tree li::after {
+            border-top: 1px solid #ddd;
+            height: 20px;
+            top: 25px;
+            width: 25px;
+        }
+
+        .tree li a {
+            margin-left: 8px;
+        }
+
+        .tree li span, .tree li a {
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border: 1px solid #999;
+            border-radius: 5px;
+            display: inline-block;
+            padding: 3px 8px;
+            text-decoration: none;
+        }
+.tree li span.page-title-flash {
+    background-color: #333333;
+    color: #ffffff;
+}
+        .tree li.parent_li > i.expand, .tree li > span {
+            cursor: pointer;
+        }
+
+    .tree > ul > li::before, .tree > ul > li::after {
+        border: 0;
+    }
+
+    .tree li:last-child::before {
+        height: 30px;
+    }
+
+    .tree li > span:hover, .tree li.parent_li > span:hover + ul li span {
+        background: #eee;
+        border: 1px solid #94a0b4;
+        color: #000;
+    }
+ul.tree-legend {
+    list-style: none;
+}
+ul.tree-legend li span {
+    margin-left: 5px;
+}
+.panel-body {
+    padding: 18px;
+}
+
+.date-hour, .date-day, .date-minute, .date-year, .date-month {
+    display: inline-block;
+}
+
+.date-day {
+    width: 17%;
+}
+
+.date-month {
+    width: 45%;
+    padding: 6px 8px;
+}
+
+.date-year {
+    width: 27%;
+}
+
+.date-minute, .date-hour {
+    width: 25%;
+}
+
+.date-group, .time-group {
+    padding: 4px 0px;
+}
+.navbar-inverse .navbar-nav li a.logout-link{ 
+    color: #999;
+    line-height: 20px;
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+}
+.navbar-inverse .navbar-nav li a.logout-link:hover {
+    text-decoration: none;
+    color: #ffffff;
+}
+@media (min-width: 768px) {
+.navbar-inverse .navbar-nav li a.logout-link {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+}
+@media screen and (max-width: 768px) {
+
+    .main {
+        padding-right: 40px;
+        padding-left: 40px;
+    }
+
+    .row-offcanvas {
+        position: relative;
+        -webkit-transition: all 0.25s ease-out;
+        -moz-transition: all 0.25s ease-out;
+        transition: all 0.25s ease-out;
+    }
+
+    .row-offcanvas-left .sidebar-offcanvas {
+        left: -33%;
+    }
+
+    .row-offcanvas-left.active {
+        left: 33%;
+    }
+
+    .sidebar-offcanvas {
+        position: absolute;
+        top: 0;
+        width: 33%;
+        margin-left: 10px;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 51px;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+        display: block;
+        padding: 20px;
+        overflow-x: hidden;
+        overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+        background-color: #f5f5f5;
+        border-right: 1px solid #eee;
+    }
+   
+}

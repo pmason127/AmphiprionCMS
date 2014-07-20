@@ -1,0 +1,116 @@
+﻿@using AmphiprionCMS.Components
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.PageTitle </title>
+    @Styles.Render("~/Content/amphiprion/css")
+    @Styles.Render("~/Content/amphiprion/admin/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/amphiprion/bootstrap")
+    @Scripts.Render("~/bundles/amphiprion/application")
+    <script type="text/javascript">
+       function setNavigation(item) {
+           if (item && item != '') {
+               $("ul.nav-sidebar li").removeClass('active');
+               $("ul.nav-sidebar li." + item).addClass('active');
+           }
+       }
+            
+       
+    </script>
+    @RenderSection("scripts", required: false)
+    @RenderSection("css", required: false)
+    
+</head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="@Url.Action("Index","Home",new{area="AmpAdministration"})" class="navbar-brand-icon"><img width="50" height="50" src="@Url.Content("~/amphiprioncms/content/images/amp150.png")"/></a><a class="navbar-brand" href="@SiteSettings.Current.SiteUrl">@SiteSettings.Current.SiteName</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                      
+                    
+                        <li>
+                            @if (AmphiprionCMS.Components.Authentication.Authentication.Current.IsAuthenticated)
+                            {
+                                using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm", @class = "navbar-right"}))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <a class="logout-link" href="javascript:document.getElementById('logoutForm').submit()">Log off @AmphiprionCMS.Components.Authentication.Authentication.Current.CurrentUser.UserName</a>
+                                }
+                            }
+                            else
+                            {
+                                <a href="#">Login</a>
+                            }  
+                           
+                        </li>
+                       
+
+                    </ul>
+                    <form class="navbar-form navbar-right">
+                        <input type="text" class="form-control" placeholder="Search...">
+                    </form>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+
+            <div class="row row-offcanvas row-offcanvas-left">
+
+                <div class="col-sm-3 col-md-2 sidebar-offcanvas" id="sidebar" role="navigation">
+
+                    <ul class="nav nav-sidebar">
+                        <li class="active"><a href="#">Dashboard</a></li>
+                        <li class="pages">@Html.ActionLink("Pages","List","PageAdmin",null,new{name="pages",id = "pages"})</li>
+                        <li><a href="#">Users</a></li>
+                        <li class="settings">@Html.ActionLink("Settings", "Settings","AmpSettings", null, new { name = "settings", id = "settings" })</li>
+                    </ul>
+                    
+
+                </div><!--/span-->
+
+                <div class="col-sm-9 col-md-10 main">
+
+                    <!--toggle sidebar button-->
+                    <p class="visible-xs">
+                        <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                    </p>
+
+                    <div class="row">
+                       @RenderBody()
+                    </div>
+
+                </div><!--/row-->
+            </div>
+        </div><!--/.container-->
+
+        <footer class="clearfix">
+            <p class="pull-right">©2014 aeroKnotic Software. All Rights Reserved.  Amphiprion CMS is released under the <a href="http://opensource.org/licenses/MIT">MIT License</a>.</p>
+        </footer>
+
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('[data-toggle=offcanvas]').click(function () {
+                    $('.row-offcanvas').toggleClass('active');
+                });
+               
+              
+            });
+           
+            jQuery.amphiprion.globals.setTZCookie({ path: '@Url.Content("~/").TrimEnd(new char[]{'/'})', tzOffsetSeconds: (new Date()).getTimezoneOffset() });
+        </script>
+</body>
+</html>

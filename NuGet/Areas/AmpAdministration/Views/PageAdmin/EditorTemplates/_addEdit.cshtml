@@ -1,0 +1,204 @@
+﻿@using AmphiprionCMS.Code
+@using AmphiprionCMS.Components
+@model AmphiprionCMS.Areas.AmpAdministration.Models.PageCreateEditModel
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(p => p.Id)
+
+   
+    <div class="form-horizontal">
+        <div class="col-md-9">
+            <div id="errors" class ="callout error" style="display:none;" ></div>
+            @Html.ValidationSummary(true)
+            @Html.Hidden("tzOffset")
+            <div class="tab-content">
+                <div class="tab-pane active" id="page">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Title, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Title)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.HtmlDescription, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.HtmlDescription, new { })
+                            @Html.ValidationMessageFor(model => model.HtmlDescription)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IsHomePage, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.IsHomePage)
+                            @Html.ValidationMessageFor(model => model.IsHomePage)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#collapseOne">
+                                Publication Options
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PublishDateUtc, new { @class = "control-label" })
+                                <div>
+                                    @Html.EditorFor(model => model.PublishDateUtc) (@Client.GetTimeZoneDisplay(this.Context))
+                                    @Html.ValidationMessageFor(model => model.PublishDateUtc)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.IsApproved, new { @class = "control-label" })
+                               
+                                    @Html.EditorFor(model => model.IsApproved)
+                                <div>
+                                    @Html.ValidationMessageFor(model => model.IsApproved)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#collapseTwo">
+                                Parent Page
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ParentId, new { @class = "control-label" })
+                                <div>
+                                    @Html.DropDownListFor(m=>m.ParentId,Model.Pages)
+                                    @Html.ValidationMessageFor(model => model.ParentId)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#collapseThree">
+                                Meta Data
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Slug, new { @class = "control-label" })
+                                <div>
+                                    @Html.EditorFor(model => model.Slug)
+                                    @Html.ValidationMessageFor(model => model.Slug)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MetaKeywords, new { @class = "control-label" })
+                                <div>
+                                    @Html.EditorFor(model => model.MetaKeywords)
+                                    @Html.ValidationMessageFor(model => model.MetaKeywords)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MetaDescription, new { @class = "control-label" })
+                                <div>
+                                    @Html.EditorFor(model => model.MetaDescription)
+                                    @Html.ValidationMessageFor(model => model.MetaDescription)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+    <div class="form-group clearfix">
+        <div class="pull-right">
+            <input type="submit" id="publish" value="Publish" class="btn btn-primary submit" />
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $.amphiprion.globals.clearModelErrors('errors');
+        toggleSubmit($("#IsApproved"));
+        
+        $("#IsApproved").change(function () {
+            toggleSubmit($(this));
+        });
+        
+        var d = new Date();
+        var n = d.getTimezoneOffset();
+        $("#tzOffset").val(n);
+
+
+
+        $("form").submit(function (e) {
+            e.preventDefault();
+            $.amphiprion.globals.clearModelErrors('errors');
+            $.validator.unobtrusive.parse($(this));
+
+            if (!$(this).valid()) return;
+            $.amphiprion.globals.showWait();
+            var formData = $(this).serialize();
+            $.ajax(
+                {
+                    cache: false,
+                    async: true,
+                    type: "POST",
+                    url: $(this).attr('action'),
+                    data: formData,
+                    success: function (data) {
+                      window.location = '@Url.Action("List","PageAdmin")?eid=' + data.Page.Id;
+                    },
+                    error:function(xhr) {
+                        var json = JSON.parse(xhr.responseText);
+                        $.amphiprion.globals.renderModelErrors(json, 'errors');
+                    }
+                    ,complete: function () {
+                        $.amphiprion.globals.hideWait();
+                    }
+                }
+            );
+
+        });
+    });
+   
+    function toggleSubmit(chkBox) {
+        var submit = $("input[type='submit']");
+        if (chkBox.is(":checked")) {
+            if (!submit.hasClass("btn-primary"))
+                submit.addClass("btn-primary");
+            submit.val("Publish");
+        } else {
+            submit.removeClass("btn-primary");
+            submit.val("Save Draft");
+        }
+            
+    }
+   
+</script>
+

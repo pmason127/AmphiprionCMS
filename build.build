@@ -1,0 +1,6 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Target Name="CleanAndRebuild">
+        <Message Text="Build # for Ampihprion" />
+        <MSBuild Projects="AmphiprionCMS.sln" Targets="Clean;Rebuild" Properties="Configuration=Release" />
+    </Target>
+</Project>

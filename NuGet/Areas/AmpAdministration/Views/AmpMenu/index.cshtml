@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "index";
+}
+<style>
+    .pages li{cursor:move}
+</style>
+<h2>index</h2>
+
+<ul class="pages">
+    <li draggable="true">Page 1</li>
+    <li draggable="true">Page 2</li>
+    <li draggable="true">Page 3</li>
+    <li draggable="true">Page 4</li>
+    <li draggable="true">Page 5</li>
+    <li draggable="true">Page 6</li>
+    <li draggable="true">Page 7</li>
+</ul>
+<ul>
+    <li>Menu 1</li>
+    <li>Menu 2
+        <ul>
+            <li>Sub 1</li>
+        </ul>
+    </li>
+    <li>Menu 3</li>
+</ul>
+
+<script type="text/javascript">
+    function handleDragStart(e) {
+        this.style.opacity = '0.4';  // this / e.target is the source node.
+    }
+
+    var cols = document.querySelectorAll('.pages li');
+    [].forEach.call(cols, function (col) {
+        col.addEventListener('dragstart', handleDragStart, false);
+    });
+</script>

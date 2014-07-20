@@ -1,0 +1,16 @@
+﻿@model System.String
+
+@Html.TextArea(string.Empty, Model, ViewData.ModelMetadata.AdditionalValues)
+<script type="text/javascript">
+    $(function() {
+        $('#@(ViewData.ModelMetadata.PropertyName)').ckeditor(
+            {
+                filebrowserImageBrowseUrl: '@Url.Content("~/amp-admin/file/browser?t=images")',
+                filebrowserUploadUrl: '@Url.Content("~/amp-admin/file/upload")',
+                filebrowserBrowseUrl: '@Url.Content("~/amp-admin/file/browser?t=all")',
+                filebrowserWindowWidth : 500,
+                filebrowserWindowHeight : 400
+            });
+    });
+  
+</script>
