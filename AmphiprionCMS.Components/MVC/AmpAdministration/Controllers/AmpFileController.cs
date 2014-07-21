@@ -13,12 +13,12 @@ using AmphiprionCMS.Models;
 namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
 {
     [Authorize]
-    public class FileController : Controller
+    public class AmpFileController : Controller
     {
         //
         // GET: /File/
         private IImagingService _imaging;
-        public FileController(IImagingService imaging)
+        public AmpFileController(IImagingService imaging)
         {
             _imaging = imaging;
         }

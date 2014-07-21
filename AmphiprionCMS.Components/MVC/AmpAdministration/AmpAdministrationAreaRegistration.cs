@@ -50,6 +50,20 @@ namespace AmphiprionCMS.Areas.AmpAdministration
              new { controller = "PageAdmin", action = "List" }
              , new string[] { "AmphiprionCMS.Areas.AmpAdministration.Controllers" }
          );
+
+            context.MapRoute(
+              "Administration_files",
+              "amp-admin/file/{action}/{id}",
+              new { controller = "AmpFile", action = "Index", id = UrlParameter.Optional }
+              , new string[] { "AmphiprionCMS.Areas.AmpAdministration.Controllers" }
+          );
+            context.MapRoute(
+              "Administration_accounts",
+              "amp-admin/account/{action}/{id}",
+              new { controller = "AmpAccount", action = "Index", id = UrlParameter.Optional }
+              , new string[] { "AmphiprionCMS.Areas.AmpAdministration.Controllers" }
+          );
+
             context.MapRoute(
                 "Administration_default",
                 "amp-admin/{controller}/{action}/{id}",

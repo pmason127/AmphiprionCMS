@@ -9,10 +9,10 @@ using AmphiprionCMS.Components.Authentication;
 namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
 {
    [CMSAuthorize]
-    public class AccountController : Controller
+    public class AmpAccountController : Controller
     {
         private ICMSAuthentication  _authenticationManager;
-        public AccountController(ICMSAuthentication authenticationManager)
+        public AmpAccountController(ICMSAuthentication authenticationManager)
         {
             _authenticationManager = authenticationManager;
          
@@ -63,7 +63,7 @@ namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
             }
             else
             {
-                return RedirectToAction("Index","Home",new {area="AmpAdministration"});
+                return RedirectToAction("Index","AmpHome",new {area="AmpAdministration"});
             }
         }
 	}

@@ -228,7 +228,7 @@
     <Content Include="Areas\AmpAdministration\Views\Shared\_Layout.cshtml" />
     <Content Include="AmphiprionCMS\Scripts\bootstrap.js" />
     <Content Include="AmphiprionCMS\Scripts\bootstrap.min.js" />
-    <Content Include="Areas\AmpAdministration\Views\Home\Index.cshtml" />
+    <Content Include="Areas\AmpAdministration\Views\AmpHome\Index.cshtml" />
     <Content Include="AmphiprionCMS\Content\iconmoon\fonts\icomoon.eot" />
     <Content Include="AmphiprionCMS\Content\iconmoon\fonts\icomoon.ttf" />
     <Content Include="AmphiprionCMS\Content\iconmoon\fonts\icomoon.woff" />
@@ -262,7 +262,7 @@
     <Content Include="AmphiprionCMS\Content\bootstrap-theme.css.map" />
     <Content Include="AmphiprionCMS\Content\bootstrap.css.map" />
     <Content Include="Media\Web.config" />
-    <Content Include="Areas\AmpAdministration\Views\Account\Login.cshtml" />
+    <Content Include="Areas\AmpAdministration\Views\AmpAccount\Login.cshtml" />
     <Content Include="Areas\AmpAdministration\Views\PageAdmin\List.cshtml" />
     <Content Include="Areas\AmpAdministration\Views\PageAdmin\_addEdit.cshtml" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
@@ -568,8 +568,8 @@
     <Content Include="Views\Error\Error404.cshtml" />
     <Content Include="Views\Error\Error.cshtml" />
     <Content Include="Views\ContentFragments\sample.cshtml" />
-    <Content Include="Areas\AmpAdministration\Views\File\Browser.cshtml" />
-    <Content Include="Areas\AmpAdministration\Views\File\_files.cshtml" />
+    <Content Include="Areas\AmpAdministration\Views\AmpFile\Browser.cshtml" />
+    <Content Include="Areas\AmpAdministration\Views\AmpFile\_files.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />

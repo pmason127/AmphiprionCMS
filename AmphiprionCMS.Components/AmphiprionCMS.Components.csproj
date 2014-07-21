@@ -166,9 +166,9 @@
     <Compile Include="Mapping\SecurityMaps.cs" />
     <Compile Include="Mapping\SettingsMap.cs" />
     <Compile Include="MVC\AmpAdministration\AmpAdministrationAreaRegistration.cs" />
-    <Compile Include="MVC\AmpAdministration\Controllers\AccountController.cs" />
+    <Compile Include="MVC\AmpAdministration\Controllers\AmpAccountController.cs" />
     <Compile Include="MVC\AmpAdministration\Controllers\AmpSettingsController.cs" />
-    <Compile Include="MVC\AmpAdministration\Controllers\FileController.cs" />
+    <Compile Include="MVC\AmpAdministration\Controllers\AmpFileController.cs" />
     <Compile Include="MVC\AmpAdministration\Controllers\AmpHomeController.cs" />
     <Compile Include="MVC\AmpAdministration\Controllers\PageAdminController.cs" />
     <Compile Include="MVC\AmpAdministration\Models\FileBrowserModel.cs" />

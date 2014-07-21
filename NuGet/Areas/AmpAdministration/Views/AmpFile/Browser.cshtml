@@ -1,0 +1,31 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+@model AmphiprionCMS.Models.FileBrowserModel
+<html>
+<head>
+    
+    <meta name="viewport" content="width=device-width" />
+    <title>View1</title>
+    <link href="~/AmphiprionCMS/Content/filebrowser.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/jquery")
+    <script type="text/javascript">
+        function getUrlParam(paramName) {
+            var reParam = new RegExp('(?:[\?&]|&)' + paramName + '=([^&]+)', 'i');
+            var match = window.location.search.match(reParam);
+
+            return (match && match.length > 1) ? match[1] : null;
+        }
+    </script>
+</head>
+    <body>
+        <div class="file-list-wrapper">
+            <div id="file-browser">
+                @Html.Partial("_files", Model)
+            </div>
+        </div>
+    </body>
+</html>
