@@ -14,13 +14,8 @@
             <dependency id="structuremap" version="2.6.4.1" />
             <dependency id="CommonServiceLocator" version="1.2" />
         </dependencies>
-        <references>
-            <group targetFramework=".NETFramework4.5">
-                <reference file="AmphiprionCMS.StructureMap.dll" />
-            </group>
-        </references>
     </metadata>
     <files>
-        <file src="bin\Debug\AmphiprionCMS.StructureMap.dll" target="lib\net45\AmphiprionCMS.StructureMap.dll" />
+        <file src="bin\Release\AmphiprionCMS.StructureMap.dll" target="lib\net45\AmphiprionCMS.StructureMap.dll" />
     </files>
 </package>
