@@ -53,9 +53,10 @@ namespace AmphiprionCMS.Areas.AmpAdministration
             context.MapRoute(
                 "Administration_default",
                 "amp-admin/{controller}/{action}/{id}",
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                new { controller = "AmpHome", action = "Index", id = UrlParameter.Optional }
                 , new string[] { "AmphiprionCMS.Areas.AmpAdministration.Controllers" }
             );
+            
         }
     }
 }

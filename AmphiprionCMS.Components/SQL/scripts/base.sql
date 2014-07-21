@@ -33,7 +33,8 @@ BEGIN
           [Path],
           MetaKeywords,
           MetaDescription,
-          ParentId
+          ParentId,
+		  IsHomePage
    )
    values
    (
@@ -50,7 +51,8 @@ BEGIN
 	null,
 	null,
 	null,
-	null
+	null,
+	1
    )
 END
 

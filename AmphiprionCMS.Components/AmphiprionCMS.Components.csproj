@@ -169,7 +169,7 @@
     <Compile Include="MVC\AmpAdministration\Controllers\AccountController.cs" />
     <Compile Include="MVC\AmpAdministration\Controllers\AmpSettingsController.cs" />
     <Compile Include="MVC\AmpAdministration\Controllers\FileController.cs" />
-    <Compile Include="MVC\AmpAdministration\Controllers\HomeController.cs" />
+    <Compile Include="MVC\AmpAdministration\Controllers\AmpHomeController.cs" />
     <Compile Include="MVC\AmpAdministration\Controllers\PageAdminController.cs" />
     <Compile Include="MVC\AmpAdministration\Models\FileBrowserModel.cs" />
     <Compile Include="MVC\AmpAdministration\Models\LoginViewModel.cs" />

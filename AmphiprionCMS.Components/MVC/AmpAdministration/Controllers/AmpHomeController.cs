@@ -9,7 +9,7 @@ using AmphiprionCMS.Components.Authentication;
 namespace AmphiprionCMS.Areas.AmpAdministration.Controllers
 {
      [CMSAuthorize(CMSPermissions.AccessAdminArea)]
-    public class HomeController : Controller
+    public class AmpHomeController : Controller
     {
         //
         // GET: /Administration/Home/
