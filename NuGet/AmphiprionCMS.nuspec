@@ -323,12 +323,12 @@
         <file src="AmphiprionCMS\Scripts\respond.matchmedia.addListener.js" target="content\AmphiprionCMS\Scripts\respond.matchmedia.addListener.js" />
         <file src="AmphiprionCMS\Scripts\respond.matchmedia.addListener.min.js" target="content\AmphiprionCMS\Scripts\respond.matchmedia.addListener.min.js" />
         <file src="AmphiprionCMS\Scripts\respond.min.js" target="content\AmphiprionCMS\Scripts\respond.min.js" />
-        <file src="Areas\AmpAdministration\Views\Account\Login.cshtml" target="content\Areas\AmpAdministration\Views\Account\Login.cshtml" />
+        <file src="Areas\AmpAdministration\Views\AmpAccount\Login.cshtml" target="content\Areas\AmpAdministration\Views\AmpAccount\Login.cshtml" />
         <file src="Areas\AmpAdministration\Views\AmpMenu\index.cshtml" target="content\Areas\AmpAdministration\Views\AmpMenu\index.cshtml" />
         <file src="Areas\AmpAdministration\Views\AmpSettings\settings.cshtml" target="content\Areas\AmpAdministration\Views\AmpSettings\settings.cshtml" />
-        <file src="Areas\AmpAdministration\Views\File\Browser.cshtml" target="content\Areas\AmpAdministration\Views\File\Browser.cshtml" />
-        <file src="Areas\AmpAdministration\Views\File\_files.cshtml" target="content\Areas\AmpAdministration\Views\File\_files.cshtml" />
-        <file src="Areas\AmpAdministration\Views\Home\Index.cshtml" target="content\Areas\AmpAdministration\Views\Home\Index.cshtml" />
+        <file src="Areas\AmpAdministration\Views\AmpFile\Browser.cshtml" target="content\Areas\AmpAdministration\Views\AmpFile\Browser.cshtml" />
+        <file src="Areas\AmpAdministration\Views\AmpFile\_files.cshtml" target="content\Areas\AmpAdministration\Views\AmpFile\_files.cshtml" />
+        <file src="Areas\AmpAdministration\Views\AmpHome\Index.cshtml" target="content\Areas\AmpAdministration\Views\AmpHome\Index.cshtml" />
         <file src="Areas\AmpAdministration\Views\PageAdmin\EditorTemplates\_addEdit.cshtml" target="content\Areas\AmpAdministration\Views\PageAdmin\EditorTemplates\_addEdit.cshtml" />
         <file src="Areas\AmpAdministration\Views\PageAdmin\AddEdit.cshtml" target="content\Areas\AmpAdministration\Views\PageAdmin\AddEdit.cshtml" />
         <file src="Areas\AmpAdministration\Views\PageAdmin\List.cshtml" target="content\Areas\AmpAdministration\Views\PageAdmin\List.cshtml" />
