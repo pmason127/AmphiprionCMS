@@ -342,6 +342,7 @@
         <file src="Areas\AmpAdministration\Views\web.config" target="content\Areas\AmpAdministration\Views\web.config" />
         <file src="Areas\AmpAdministration\Views\_ViewStart.cshtml" target="content\Areas\AmpAdministration\Views\_ViewStart.cshtml" />
         <file src="Media\Web.config" target="content\Media\Web.config" />
+		<file src="Views\AmpPage\Page.cshtml" target="content\Views\AmpPage\Page.cshtml" />
         <file src="lib\AmphiprionCMS.Components.dll" target="lib\net45\AmphiprionCMS.Components.dll" />
     </files>
 </package>
