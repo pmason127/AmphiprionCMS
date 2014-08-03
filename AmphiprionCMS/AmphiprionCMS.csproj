@@ -235,6 +235,7 @@
     <Content Include="Areas\AmpAdministration\Views\AmpSettings\settings.cshtml" />
     <Content Include="Areas\AmpAdministration\Views\Shared\EditorTemplates\String.cshtml" />
     <Content Include="Areas\AmpAdministration\Views\AmpMenu\index.cshtml" />
+    <Content Include="App_Data\__amp_settings.cfg" />
     <None Include="Areas\AmpAdministration\Views\Shared\_LoginPartial.cshtml.k" />
     <Content Include="AmphiprionCMS\Scripts\ckeditor\CHANGES.md" />
     <Content Include="AmphiprionCMS\Scripts\ckeditor\LICENSE.md" />
@@ -570,6 +571,7 @@
     <Content Include="Views\ContentFragments\sample.cshtml" />
     <Content Include="Areas\AmpAdministration\Views\AmpFile\Browser.cshtml" />
     <Content Include="Areas\AmpAdministration\Views\AmpFile\_files.cshtml" />
+    <Content Include="Views\AmpSiteSetup\Setup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />

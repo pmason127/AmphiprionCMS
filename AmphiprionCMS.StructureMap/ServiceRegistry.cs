@@ -42,7 +42,7 @@ namespace AmphiprionCMS.Components.IOC
                             x.For<IPageService>().Singleton().Use<PageService>();
                             x.For<IFormatting>().Singleton().Use<Formatting>();
                             x.For<IImagingService>().Singleton().Use<ImagingService>();
-
+                           
                             x.For<ICMSAuthentication>().HybridHttpOrThreadLocalScoped().Use((c) => settings.AuthenticationManager );
                             x.For(typeof (ISearchIndexProvider<>)).Use(typeof (SearchIndexProvider<>));
                             x.For<ISettingsRepository>().Singleton().Use<SettingsRepository>();

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Web;
 using System.Web.Mvc;
@@ -9,6 +11,7 @@ using AmphiprionCMS.Components.Authentication;
 using AmphiprionCMS.Components.Security;
 using AmphiprionCMS.Components.SQL;
 using FluentValidation.Mvc;
+using Microsoft.Ajax.Utilities;
 using Microsoft.Owin.Security;
 using Microsoft.Practices.ServiceLocation;
 
@@ -19,6 +22,10 @@ namespace AmphiprionCMS.Components
     {
          ICMSAuthorization Authorizer { get; }
          ICMSAuthentication AuthenticationManager { get; }
+         string ConnectionString { get; }
+         string ConnectionStringName { get; }
+         bool IsConfigured { get; }
+        void RefreshFileSettings();
     }
 
     public interface IConfigurationSetupExpression
@@ -32,9 +39,11 @@ namespace AmphiprionCMS.Components
         private Func<HttpContextBase, ICMSAuthorization> _authorizer = null;
         private Func<HttpContextBase, ICMSAuthentication> _authentication = null;
         private HttpContextBase _httpConext = null;
+        private static dynamic _settings;
         internal  AmphiprionCMSConfiguration(HttpContextBase httpContext)
         {
             _httpConext = httpContext;
+            RefreshFileSettingsInternal();
         }
         void IConfigurationSetupExpression.SetAuthorization(Func<HttpContextBase, ICMSAuthorization> auth)
         {
@@ -70,6 +79,65 @@ namespace AmphiprionCMS.Components
             }
 
         }
+
+        string IConfigurationSettings.ConnectionString
+        {
+            get
+            {
+                return ConnectionStringInternal;
+            }
+        }
+        string IConfigurationSettings.ConnectionStringName
+        {
+            get
+            {
+                return ConnectionStringNameInternal;
+            }
+        }
+
+        private string ConnectionStringNameInternal
+        {
+            get
+            {
+                if (_settings == null)
+                    return null;
+
+                return _settings.ConnectionStringName;
+            }
+        }
+        private string ConnectionStringInternal
+        {
+            get
+            {
+                if (_settings == null)
+                    return null;
+
+                return _settings.ConnectionString;
+            }
+        }
+        bool IConfigurationSettings.IsConfigured
+        {
+            get
+            {
+                if (_settings == null)
+                    return false;
+                if (_settings.IsConfigured == null)
+                    return false;
+
+                return _settings.IsConfigured.Value && (!string.IsNullOrEmpty(ConnectionStringInternal) || !string.IsNullOrEmpty(ConnectionStringNameInternal));
+
+            }
+        }
+
+        private void RefreshFileSettingsInternal()
+        {
+            _settings = SettingsFile.ReadFile(_httpConext.Server.MapPath("~/App_Data"), "amp_settings.cfg");
+        }
+        void IConfigurationSettings.RefreshFileSettings()
+        {
+            RefreshFileSettingsInternal();
+        }
+       
     }
     public static class AmphiprionCMSInitializer
     {
@@ -134,7 +202,12 @@ namespace AmphiprionCMS.Components
         }
         private static void RegisterRoutes(RouteCollection routes)
         {
-
+            routes.MapRoute("site_setup"
+               , "amphiprioncms/setup"
+               , new { controller = "AmpSiteSetup", action = "Setup", lang = "en" }
+               ,null
+               , new string[] { "AmphiprionCMS.Controllers" }
+               );
             routes.MapRoute("content_page"
                 , "{*path}"
                 , new { controller = "AmpPage", action = "Page", lang = "en" }

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Odbc;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AmphiprionCMS.Components;
 
 namespace Amphiprion.Data
 {
@@ -15,15 +17,22 @@ namespace Amphiprion.Data
 
     public class MSSQLConnectionManager : IConnectionManager
     {
-
+    
         public IDbConnection GetConnection(bool openConnection = true, dynamic options = null)
         {
-            var cStr = "amp";
-            if (options != null && options.ConnectionStringName != null)
-                cStr = options.ConnectionStringName;
+            SqlConnection con = null;
+            if(AmphiprionCMSInitializer.Configuration.ConnectionString != null)
+                con = new SqlConnection(AmphiprionCMSInitializer.Configuration.ConnectionString);
 
-            var connctionString = System.Configuration.ConfigurationManager.ConnectionStrings[cStr].ConnectionString;
-            var con = new SqlConnection(connctionString);
+            if (con == null && AmphiprionCMSInitializer.Configuration.ConnectionStringName != null)
+            {
+                var connctionString = System.Configuration.ConfigurationManager.ConnectionStrings[AmphiprionCMSInitializer.Configuration.ConnectionStringName].ConnectionString;
+                 con = new SqlConnection(connctionString);
+                return con;
+            }
+
+            if(con == null)
+                throw new SiteNotConfiguredException();
 
             if(openConnection)
                 con.Open();

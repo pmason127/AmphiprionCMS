@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using AmphiprionCMS.Components.Security;
-using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
+
 using Microsoft.Practices.ServiceLocation;
 
 namespace AmphiprionCMS.Components.Authentication
@@ -35,6 +29,8 @@ namespace AmphiprionCMS.Components.Authentication
         CMSUser CurrentUser { get; }
         void SignIn(string userName, string password, bool isPersistent);
         void SignOut();
+        bool AssignCMSAdministrator(string username,string password,string emailAddress);
+
     }
 
    

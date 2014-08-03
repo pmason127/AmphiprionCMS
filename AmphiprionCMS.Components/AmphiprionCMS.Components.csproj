@@ -161,6 +161,7 @@
     <Compile Include="Formatting.cs" />
     <Compile Include="IConnectionManager.cs" />
     <Compile Include="IContentFragment.cs" />
+    <Compile Include="ISettingsFile.cs" />
     <Compile Include="ISiteIntializer.cs" />
     <Compile Include="Mapping\PageMap.cs" />
     <Compile Include="Mapping\SecurityMaps.cs" />
@@ -180,9 +181,12 @@
     <Compile Include="MVC\CMSIgnoreRouteContraint.cs" />
     <Compile Include="MVC\Constants.cs" />
     <Compile Include="MVC\Controllers\AmpPageController.cs" />
+    <Compile Include="MVC\Controllers\AmpSiteSetupController.cs" />
     <Compile Include="MVC\DateTimeModelBinder.cs" />
+    <Compile Include="MVC\EnsureSiteSetupAttribute.cs" />
     <Compile Include="MVC\HtmlHelpers.cs" />
     <Compile Include="MVC\Models\ContentPage.cs" />
+    <Compile Include="MVC\Models\SetupModel.cs" />
     <Compile Include="MVC\PermanentRedirect.cs" />
     <Compile Include="MVC\RouteDataExtensions.cs" />
     <Compile Include="MVC\ThemeHelper.cs" />
@@ -196,6 +200,7 @@
     <Compile Include="Security\SecurityService.cs" />
     <Compile Include="Security\Startup.cs" />
     <Compile Include="Services\PageService.cs" />
+    <Compile Include="SiteNotConfiguredException.cs" />
     <Compile Include="SiteSettings.cs" />
     <Compile Include="SQL\CMSUserRepository.cs" />
     <Compile Include="SQL\IInstaller.cs" />

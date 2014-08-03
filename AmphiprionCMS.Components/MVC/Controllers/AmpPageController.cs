@@ -9,6 +9,7 @@ using AmphiprionCMS.Models;
 
 namespace AmphiprionCMS.Controllers
 {
+    [EnsureSiteSetup]
     public class AmpPageController : Controller
     {
         private IPageService _pageService;

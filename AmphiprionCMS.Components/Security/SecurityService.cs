@@ -18,6 +18,10 @@ namespace AmphiprionCMS.Components.Security
 
     public class InvalidUserException : ApplicationException
     {
+        public InvalidUserException(string message):base(message)
+        {
+                
+        }
         public InvalidUserException():base("User not found or credentials not valid")
         {
                 
@@ -42,7 +46,7 @@ namespace AmphiprionCMS.Components.Security
             _userManager = new UserManager<CMSUser, Guid>(new CMSUserStore(userRepo));
             _roleManager = new RoleManager<CMSRole, string>(new CMSUserStore(userRepo));
             _context = httpContext;
-            anonymous = _userManager.FindByName("anonymous");
+           
         }
 
         public bool IsInRoles(Guid id, params string[] rolesToCheck)
@@ -92,7 +96,13 @@ namespace AmphiprionCMS.Components.Security
                
                 var user = Authentication.User;
                 if (user == null || !user.Identity.IsAuthenticated)
+                {
+                    if(anonymous == null)
+                        anonymous = _userManager.FindByName("anonymous");
+
                     return anonymous;
+                }
+                    
 
                 var loggedIn = _userManager.FindById(Guid.Parse(user.Identity.GetUserId()));
                 return loggedIn;
@@ -165,6 +175,28 @@ namespace AmphiprionCMS.Components.Security
         }
         public bool CanAccessSection(string section)
         {
+            return true;
+        }
+
+        public bool AssignCMSAdministrator(string username,string password,string emailAddress)
+        {
+            var user = _userManager.Find(username,password);
+            if (user == null)
+            {
+                var existing = _userManager.FindByName(username);
+                if(existing != null || (existing != null && !existing.Email.Equals(emailAddress,StringComparison.InvariantCultureIgnoreCase)))
+                    throw new InvalidUserException("A user account was found but the passowrd and/or email is not valid");
+                
+                _userManager.Create(new CMSUser() {Email = emailAddress, IsActive = true, UserName = username});
+                user = _userManager.FindByName(username);
+                _userManager.AddPassword(user.Id, password);
+                _userManager.AddToRole(user.Id, "administrators");
+            }
+            else
+            {
+                if(!_userManager.IsInRole(user.Id,"administrators"))
+                    _userManager.AddToRole(user.Id, "administrators");
+            }
             return true;
         }
     }
