@@ -35,6 +35,7 @@ namespace AmphiprionCMS.Components.IOC
 
                             x.For<HttpContextBase>().HybridHttpOrThreadLocalScoped().Use(()=> new HttpContextWrapper(HttpContext.Current));
                             x.For<ISiteInitializer>().Use<DefaultSiteInitializer>();
+                            x.For<IInstaller>().Use<MSSQLInstaller>();
                            
                             x.For<ICMSUserRepository>().Singleton().Use<CMSUserRepository>();
                             x.For<IConnectionManager>().Use<MSSQLConnectionManager>();

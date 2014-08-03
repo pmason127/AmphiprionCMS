@@ -178,6 +178,7 @@
     <Compile Include="MVC\AmpAdministration\Models\SettingsModel.cs" />
     <Compile Include="MVC\Attributes.cs" />
     <Compile Include="MVC\Client.cs" />
+    <Compile Include="MVC\ServerAccessOnlyRouteConstraint.cs" />
     <Compile Include="MVC\CMSIgnoreRouteContraint.cs" />
     <Compile Include="MVC\Constants.cs" />
     <Compile Include="MVC\Controllers\AmpPageController.cs" />

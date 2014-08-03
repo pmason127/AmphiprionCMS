@@ -67,6 +67,12 @@ BEGIN
 		PasswordHash nvarchar(128) null
 	)
 END
+
+IF NOT EXISTS(SELECT 1 FROM ampUser WHERE Id='00000000-0000-0000-0000-000000000000')
+BEGIN
+	INSERT INTO ampUser(Id,Email,UserName,IsActive,PasswordHash) VALUES('00000000-0000-0000-0000-000000000000','anonymous@localhost.com','anonymous',1,' ')
+END
+
 IF (OBJECT_ID('ampRole') IS  NULL)
 BEGIN
 	create table ampRole

@@ -205,7 +205,13 @@ namespace AmphiprionCMS.Components
             routes.MapRoute("site_setup"
                , "amphiprioncms/setup"
                , new { controller = "AmpSiteSetup", action = "Setup", lang = "en" }
-               ,null
+               , new {page = new ServerAccessOnlyRouteConstraint()  }
+               , new string[] { "AmphiprionCMS.Controllers" }
+               );
+            routes.MapRoute("site_downloadsql"
+               , "amphiprioncms/setup/sql"
+               , new { controller = "AmpSiteSetup", action = "DownloadSQL", lang = "en" }
+               , new { page = new ServerAccessOnlyRouteConstraint() }
                , new string[] { "AmphiprionCMS.Controllers" }
                );
             routes.MapRoute("content_page"

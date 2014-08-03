@@ -42,6 +42,8 @@ namespace AmphiprionCMS.Components.SQL
 
         public void CreateUser(CMSUser user)
         {
+            if (user.Id == Guid.Empty)
+                user.Id = Guid.NewGuid();
             using (var c = _connectionManager.GetConnection())
             {
                 using (var t = c.BeginTransaction(IsolationLevel.ReadCommitted))

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -43,7 +44,14 @@ namespace AmphiprionCMS.Models
             get;
             set;
         }
-
+        
+        [DisplayName("Execute SQL")]
+        [Description("Execute the SQL on your database automatically, requires Dbo privileges")]
+        public bool ExecuteSql
+        {
+            get;
+            set;
+        }
         
     }
 

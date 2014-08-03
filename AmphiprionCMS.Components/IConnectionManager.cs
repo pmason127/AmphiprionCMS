@@ -28,7 +28,6 @@ namespace Amphiprion.Data
             {
                 var connctionString = System.Configuration.ConfigurationManager.ConnectionStrings[AmphiprionCMSInitializer.Configuration.ConnectionStringName].ConnectionString;
                  con = new SqlConnection(connctionString);
-                return con;
             }
 
             if(con == null)

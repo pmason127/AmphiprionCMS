@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Amphiprion.Data;
 using AmphiprionCMS.Components;
 using AmphiprionCMS.Components.Authentication;
 using AmphiprionCMS.Models;
@@ -17,10 +18,12 @@ namespace AmphiprionCMS.Controllers
     {
         private ICMSAuthentication _auth;
         private ICMSAuthorization _authorization;
-        public AmpSiteSetupController(ICMSAuthentication authentication,ICMSAuthorization authorization)
+        private IInstaller _installer;
+        public AmpSiteSetupController(ICMSAuthentication authentication,ICMSAuthorization authorization,IInstaller installer)
         {
             _auth = authentication;
             _authorization = authorization;
+            _installer = installer;
         }
         public ActionResult Setup()
         {
@@ -50,6 +53,9 @@ namespace AmphiprionCMS.Controllers
                     SettingsFile.WriteToFile(this.HttpContext.Server.MapPath("~/App_Data"), "amp_settings.cfg", new { ConnectionString = model.ConnectionString, ConnectionStringName = model.ConnectionStringName,IsConfigured=true });
                     AmphiprionCMSInitializer.Configuration.RefreshFileSettings();
 
+                    if(model.ExecuteSql)
+                        _installer.Install();
+
                     _auth.AssignCMSAdministrator(model.Username, model.Password, model.EmailAddress);
 
                     return Redirect(VirtualPathUtility.ToAbsolute("~/"));
@@ -63,6 +69,14 @@ namespace AmphiprionCMS.Controllers
             }
 
             return View(model);
+        }
+
+        public ActionResult DownloadSQL()
+        {
+            var bytes = System.Text.Encoding.UTF8.GetBytes(_installer.GetInstallScript());
+            var result = new FileContentResult(bytes, "text/plain");
+            result.FileDownloadName = "install.sql";
+            return result;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
@@ -13,6 +14,7 @@ namespace Amphiprion.Data
     public interface IInstaller
     {
         void Install();
+        string GetInstallScript();
     }
 
     public class InstallerUtility
@@ -34,6 +36,12 @@ namespace Amphiprion.Data
         public MSSQLInstaller(IConnectionManager connectionManager)
         {
             _connectionManager = connectionManager;
+        }
+
+        public string GetInstallScript()
+        {
+            var sql = InstallerUtility.ReadScriptFile("base", "SQL");
+            return sql;
         }
         public void Install()
         {

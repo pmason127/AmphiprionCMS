@@ -344,5 +344,6 @@
         <file src="Media\Web.config" target="content\Media\Web.config" />
 		<file src="Views\AmpPage\Page.cshtml" target="content\Views\AmpPage\Page.cshtml" />
         <file src="lib\AmphiprionCMS.Components.dll" target="lib\net45\AmphiprionCMS.Components.dll" />
+		<file src="Web.config.transform" target="content\web.config.transform" />
     </files>
 </package>
