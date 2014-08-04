@@ -11,6 +11,7 @@ using AmphiprionCMS.Components.SQL;
 using AmphiprionCMS.DependencyInjection;
 using Microsoft.Practices.ServiceLocation;
 using StructureMap;
+using StructureMap.Web;
 
 
 namespace AmphiprionCMS.Components.IOC

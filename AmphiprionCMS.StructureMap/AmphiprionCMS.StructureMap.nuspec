@@ -11,8 +11,9 @@
         <copyright>2014</copyright>
         <dependencies>
             <dependency id="AmphiprionCMS" version="1.0.0" />
-            <dependency id="structuremap" version="2.6.4.1" />
+            <dependency id="structuremap" version="3.0.5.130" />
             <dependency id="CommonServiceLocator" version="1.2" />
+			<dependency id="structuremap.web" version="3.0.0.108" />
         </dependencies>
     </metadata>
     <files>
