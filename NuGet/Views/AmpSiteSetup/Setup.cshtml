@@ -1,0 +1,96 @@
+﻿@model AmphiprionCMS.Models.SetupModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Setup</title>
+    @Styles.Render("~/Content/amphiprion/css")
+</head>
+<body>
+    <div class="container-fluid">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+   
+            <div class="form-horizontal">
+                <div class="col-md-9">
+                    <h1>Setup Your Site</h1>
+                    <p>
+                        For security purposes already configured data will not be shown.  Please provide the full configuration.
+                    </p>
+                    <div id="errors" class="callout error" style="display:none;"></div>
+                    @Html.ValidationSummary(true)
+          
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ConnectionString, new { @class = "control-label col-md-5" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(model => model.ConnectionString, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ConnectionString)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ConnectionStringName, new { @class = "control-label col-md-5" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(model => model.ConnectionStringName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ConnectionStringName)
+                        </div>
+                    </div>
+           
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Username, new { @class = "control-label col-md-5" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Username)
+                        </div>
+                    </div> 
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmailAddress , new { @class = "control-label col-md-5" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(model => model.EmailAddress, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.EmailAddress)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Password, new { @class = "control-label col-md-5" })
+                        <div class="col-md-7">
+                            @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Password)
+                        </div>
+                    </div>    
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ExecuteSql, new { @class = "control-label col-md-5" })
+                       
+                        <div class="col-md-7">
+                           
+                            @Html.CheckBoxFor(model => model.ExecuteSql, new { }) <a class="btn" href="@Url.Action("DownloadSQL","AmpSiteSetup")">Download SQL</a>
+                            <p>
+                                Automatically execute the database install script.  Requires DBO rights.
+                            </p>
+                            @Html.ValidationMessageFor(model => model.ExecuteSql)
+                           
+                        </div>
+                    </div>        
+                    <div class="form-group clearfix">
+                        <div class="pull-right">
+                            <input type="submit" value="Save" class="btn btn-primary submit" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+       
+           
+        }
+
+
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/amphiprion/bootstrap")
+</body>
+</html>
