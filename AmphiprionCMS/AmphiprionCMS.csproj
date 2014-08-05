@@ -626,8 +626,7 @@
     <PostBuildEvent>xcopy /q /y /e /i "$(ProjectDir)AmphiprionCMS" "$(SolutionDir)NuGet\AmphiprionCMS"
 xcopy /q /y /e /i "$(ProjectDir)Media" "$(SolutionDir)NuGet\Media"
 xcopy /q /y /e /i "$(ProjectDir)Areas" "$(SolutionDir)NuGet\Areas"
-xcopy /q /y /e /i "$(ProjectDir)Views\AmpPage" "$(SolutionDir)NuGet\Views\AmpPage"
-xcopy /q /y /e /i "$(ProjectDir)Views\AmpPage" "$(SolutionDir)NuGet\Views\AmpSiteSetup"</PostBuildEvent>
+xcopy /q /y /e /i "$(ProjectDir)Views\AmpPage" "$(SolutionDir)NuGet\Views\AmpPage"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
