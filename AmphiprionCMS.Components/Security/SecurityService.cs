@@ -186,9 +186,16 @@ namespace AmphiprionCMS.Components.Security
                 var existing = _userManager.FindByName(username);
                 if(existing != null || (existing != null && !existing.Email.Equals(emailAddress,StringComparison.InvariantCultureIgnoreCase)))
                     throw new InvalidUserException("A user account was found but the passowrd and/or email is not valid");
-                
-                _userManager.Create(new CMSUser() {Email = emailAddress, IsActive = true, UserName = username},password);
+                var newuser = new CMSUser()
+                {
+                    Email = emailAddress,
+                    IsActive = true,
+                    UserName = username,
+                    Id = Guid.NewGuid()
+                };
+                 _userManager.Create(newuser);
                 user = _userManager.FindByName(username);
+                _userManager.AddPassword(user.Id, password);
                 _userManager.AddToRole(user.Id, "administrators");
             }
             else
