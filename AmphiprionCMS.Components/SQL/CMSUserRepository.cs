@@ -156,11 +156,11 @@ namespace AmphiprionCMS.Components.SQL
         {
             using (var c = _connectionManager.GetConnection())
             {
-                var hash = c.Query<dynamic>("select PasswordHash from ampUser where Id = @id", new {id = userId}).FirstOrDefault();
+                var hash = c.Query<string>("select PasswordHash from ampUser where Id = @id", new {id = userId}).FirstOrDefault();
                 c.Close();
                 if (hash == null)
                     return null;
-                return hash.PasswordHash;
+                return hash;
             }
         }
 
