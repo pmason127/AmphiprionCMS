@@ -20,6 +20,7 @@
 
 
     @Scripts.Render("~/bundles/amphiprion/jquery")
+    @Scripts.Render("~/bundles/amphiprion/application")
     <script type="text/javascript">
             jQuery.amphiprion.globals.setTZCookie({path:'@Url.Content("~/").TrimEnd(new char[]{'/'})',tzOffsetSeconds:(new Date()).getTimezoneOffset()});
     </script>
