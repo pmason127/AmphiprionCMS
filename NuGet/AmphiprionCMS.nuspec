@@ -12,7 +12,6 @@
         <copyright>Copyright 2014</copyright>
         <tags>CMS</tags>
         <dependencies>
-		    <dependency id="Microsoft.jQuery.Unobtrusive.Validation" version="3.2.0"  />
             <dependency id="CommonServiceLocator" version="1.3" />
             <dependency id="DapperExtensions" version="1.4.4" />
             <dependency id="FluentValidation.MVC5" version="5.4.0.0" />
@@ -26,6 +25,8 @@
         </dependencies>
     </metadata>
     <files>
+	    <file src="AmphiprionCMS\Layout\_default.cshtml" target="content\AmphiprionCMS\Layout\_default.cshtml" />
+		<file src="AmphiprionCMS\Layout\web.config" target="content\AmphiprionCMS\Layout\web.config" />
         <file src="AmphiprionCMS\Content\fonts\glyphicons-halflings-regular.eot" target="content\AmphiprionCMS\Content\fonts\glyphicons-halflings-regular.eot" />
         <file src="AmphiprionCMS\Content\fonts\glyphicons-halflings-regular.svg" target="content\AmphiprionCMS\Content\fonts\glyphicons-halflings-regular.svg" />
         <file src="AmphiprionCMS\Content\fonts\glyphicons-halflings-regular.ttf" target="content\AmphiprionCMS\Content\fonts\glyphicons-halflings-regular.ttf" />
@@ -47,6 +48,9 @@
         <file src="AmphiprionCMS\Content\bootstrap.min.css" target="content\AmphiprionCMS\Content\bootstrap.min.css" />
         <file src="AmphiprionCMS\Content\filebrowser.css" target="content\AmphiprionCMS\Content\filebrowser.css" />
         <file src="AmphiprionCMS\Content\Site.css" target="content\AmphiprionCMS\Content\Site.css" />
+		<file src="AmphiprionCMS\Scripts\jquery-2.1.1.min.js" target="content\AmphiprionCMS\Scripts\jquery-2.1.1.min.js" />
+		<file src="AmphiprionCMS\Scripts\jquery.validate.min.js" target="content\AmphiprionCMS\Scripts\jquery.validate.min.js" />
+		<file src="AmphiprionCMS\Scripts\jquery.validate.unobtrusive.min.js" target="content\AmphiprionCMS\Scripts\jquery.validate.unobtrusive.min.js" />
         <file src="AmphiprionCMS\Scripts\ckeditor\adapters\jquery.js" target="content\AmphiprionCMS\Scripts\ckeditor\adapters\jquery.js" />
         <file src="AmphiprionCMS\Scripts\ckeditor\lang\af.js" target="content\AmphiprionCMS\Scripts\ckeditor\lang\af.js" />
         <file src="AmphiprionCMS\Scripts\ckeditor\lang\ar.js" target="content\AmphiprionCMS\Scripts\ckeditor\lang\ar.js" />

@@ -24,6 +24,7 @@ namespace AmphiprionCMS.Components
          ICMSAuthentication AuthenticationManager { get; }
          string ConnectionString { get; }
          string ConnectionStringName { get; }
+         string Layout { get; }
          bool IsConfigured { get; }
         void RefreshFileSettings();
     }
@@ -32,6 +33,7 @@ namespace AmphiprionCMS.Components
     {
         void SetAuthorization(Func<HttpContextBase, ICMSAuthorization> auth);
         void SetAuthentication(Func<HttpContextBase, ICMSAuthentication> manager);
+        string Layout { set; }
     }
    
     internal class AmphiprionCMSConfiguration:IConfigurationSettings,IConfigurationSetupExpression
@@ -137,7 +139,19 @@ namespace AmphiprionCMS.Components
         {
             RefreshFileSettingsInternal();
         }
-       
+
+
+        private string _layout = "~/amphiprioncms/layout/_default.cshtml";
+        string IConfigurationSettings.Layout
+        {
+            get { return _layout; }
+        }
+
+
+        string IConfigurationSetupExpression.Layout
+        {
+            set { _layout = value; }
+        }
     }
     public static class AmphiprionCMSInitializer
     {
@@ -175,6 +189,13 @@ namespace AmphiprionCMS.Components
 
         private static void RegisterBundles(BundleCollection bundles )
         {
+            bundles.Add(new ScriptBundle("~/bundles/amphiprion/jquery").Include(
+                       "~/AmphiprionCMS/Scripts/jquery-2.1.1.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/amphiprion/jqueryval").Include(
+                        "~/AmphiprionCMS/Scripts/jquery.validate.min.js",
+                         "~/AmphiprionCMS/Scripts/jquery.validate.unobtrusive.min.js"));
+
                bundles.Add(new ScriptBundle("~/bundles/amphiprion/bootstrap").Include(
                       "~/AmphiprionCMS/Scripts/bootstrap.js",
                       "~/AmphiprionCMS/Scripts/respond.js"));
