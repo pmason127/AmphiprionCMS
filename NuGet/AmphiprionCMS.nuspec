@@ -12,6 +12,7 @@
         <copyright>Copyright 2014</copyright>
         <tags>CMS</tags>
         <dependencies>
+		  <dependency id="Microsoft.AspNet.Mvc" version="5.2.0"  />
             <dependency id="CommonServiceLocator" version="1.3" />
 			<dependency id="Newtonsoft.Json" version="6.0.4" />
             <dependency id="DapperExtensions" version="1.4.4" />
